@@ -13,7 +13,7 @@ public class DataAccount {
     // get session factory connection (replacement DBConnection)
     private static SessionFactory factory = new HibernateConfig().getSessionFactory();
 
-    public boolean addAccount(Account account){
+    public boolean addAccount(Account account) {
         Session sesn = factory.openSession();
         boolean isAdded = false;
         try {
@@ -22,8 +22,8 @@ public class DataAccount {
             sesn.save(account);
             trx.commit();
             isAdded = true;
-        } catch(Exception sqlException) {
-            if(sesn.getTransaction()!=null) {
+        } catch (Exception sqlException) {
+            if (sesn.getTransaction() != null) {
                 sesn.getTransaction().rollback();
             }
             sqlException.printStackTrace();
@@ -34,8 +34,26 @@ public class DataAccount {
     }
 
 
+    public Account login(String cif, String password) {
+        {
+            Session sesn = factory.openSession();
+            Account users = new Account();
+            try {
+                Query query = (Query) sesn.createQuery("From Account Where cif.cif=:cif and password=:password");
+                query.setParameter("cif", cif);
+                query.setParameter("password", password);
+                users = (Account) query.uniqueResult();
+            } catch (HibernateException e) {
+                //        sesn.close();
+                e.printStackTrace();
+            }
+            return users;
+        }
+    }
+
+
     // get kode
-    public String getCode(){
+    public String getCode() {
         String lastValue = "";
         // open new session
         Session sesn = factory.openSession();
@@ -43,13 +61,13 @@ public class DataAccount {
             // try to execute query and insert result to users list
             Query query = sesn.createQuery("SELECT COUNT(account_number)+1 FROM Account");
             Object data = query.uniqueResult();
-            int val1 = Values.getRandomNumberInRange(100000,900000);
-            int val2 = Values.getRandomNumberInRange(100000,900000);
-            int frontUniq = Values.getRandomNumberInRange(1,9);
-            String lastIndex = String.valueOf(val1+""+val2);
-            lastIndex = lastIndex+data.toString();
-            lastValue = Code.makeCode(String.valueOf(frontUniq).toUpperCase(),lastIndex,10);
-        } catch (HibernateException e){
+            int val1 = Values.getRandomNumberInRange(100000, 900000);
+            int val2 = Values.getRandomNumberInRange(100000, 900000);
+            int frontUniq = Values.getRandomNumberInRange(1, 9);
+            String lastIndex = String.valueOf(val1 + "" + val2);
+            lastIndex = lastIndex + data.toString();
+            lastValue = Code.makeCode(String.valueOf(frontUniq).toUpperCase(), lastIndex, 10);
+        } catch (HibernateException e) {
             e.printStackTrace();
         }
         return lastValue;

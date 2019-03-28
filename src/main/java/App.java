@@ -50,7 +50,7 @@ public class App {
                     } else if (menu == 2) {
                         createAccount();
                     } else if (menu == 3) {
-//                        login();
+                        login();
                     } else if (menu == 4) {
 //                            new ThreadUpload("Upload1").start();
 
@@ -173,6 +173,29 @@ public class App {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    // login
+    static void login() {
+        try {
+            System.out.println("===== Login ======");
+            System.out.print("CIF : ");
+            String username = input.readLine();
+            System.out.print("PIN : ");
+            String password = input.readLine();
+
+            Account acLog = ac.login(username, password);
+            if (acLog != null) {
+                listAccount.add(acLog);
+                mainMenu();
+            } else {
+                System.out.println("Username or pin not valid");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     // Main Menu/

@@ -22,4 +22,16 @@ public class AccountController {
 
     }
 
+    public Account login(String username, String password) {
+        Account isLogin = null;
+
+        Account login = accn.login(username, password);
+        if (login != null) {
+            isLogin = login;
+        }
+
+        return isLogin;
+    }
+
+
 }

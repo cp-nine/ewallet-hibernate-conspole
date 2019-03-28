@@ -20,4 +20,19 @@ public class AccountImpl implements IAccount {
 
         return isAdded;
     }
+
+    public Account login(String cif, String password) {
+        Account logAccount = null;
+        try {
+            Account account = dataAccount.login(cif, password);
+            if( account != null){
+                logAccount = account;
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return logAccount;
+
+    }
 }
