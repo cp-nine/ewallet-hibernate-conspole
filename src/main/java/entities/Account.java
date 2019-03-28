@@ -15,6 +15,8 @@ public class Account {
     private String open_date;
     @Column(name = "balance")
     private Long balance;
+    @Column(name = "password")
+    private String pasword;
 
 
     @ManyToOne
@@ -56,6 +58,14 @@ public class Account {
         this.balance = balance;
     }
 
+    public String getPasword() {
+        return pasword;
+    }
+
+    public void setPasword(String pasword) {
+        this.pasword = pasword;
+    }
+
     public Customer getCif() {
         return cif;
     }
@@ -64,8 +74,4 @@ public class Account {
         this.cif = cif;
     }
 
-//    @Override
-//    public String toString(){
-//        return String.format("Brith Date: %s, Username: %s", this.cif.getbDate(), this.cif.getUsername());
-//    }
 }

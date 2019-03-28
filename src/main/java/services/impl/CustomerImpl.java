@@ -29,4 +29,10 @@ public class CustomerImpl implements ICustomer {
         return dataCustomer.listCustomer();
     }
 
+    public Customer getCustomerNameAndCif(String cif) {
+
+        return dataCustomer.getNameCif(cif);
+
+    }
+
 }

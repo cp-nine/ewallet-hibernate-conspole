@@ -1,4 +1,5 @@
 import config.Values;
+import controller.AccountController;
 import controller.CustomerController;
 import entities.Account;
 import entities.Customer;
@@ -14,8 +15,8 @@ public class App {
     static InputStreamReader inputStream = new InputStreamReader(System.in);
     static BufferedReader input = new BufferedReader(inputStream);
     static CustomerController cc = new CustomerController();
-    //    static AccountController ac = new AccountController();
-//    static WalletAccountController wac = new WalletAccountController();
+    static AccountController ac = new AccountController();
+    //    static WalletAccountController wac = new WalletAccountController();
 //    static WalletController wc = new WalletController();
     static List<Account> listAccount = new ArrayList<Account>();
     static Integer idWallet = 0;
@@ -47,7 +48,7 @@ public class App {
                     if (menu == 1) {
                         addCustomer();
                     } else if (menu == 2) {
-//                        createAccount();
+                        createAccount();
                     } else if (menu == 3) {
 //                        login();
                     } else if (menu == 4) {
@@ -116,6 +117,58 @@ public class App {
                     }
                 }
             } while (!kembali);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // create new account
+    public static void createAccount() {
+        try {
+            System.out.println("-------------- Register Account ------------");
+            boolean kembali2 = false;
+            do {
+                System.out.print("CIF Number      : ");
+                String cif = input.readLine().trim();
+                if (!Values.validLength(cif, 8, 8)) {
+                    System.out.println("CIF must be 8 character can not empty!!");
+                } else {
+                    System.out.print("PIN          : ");
+                    String password = input.readLine().trim();
+                    if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
+                        System.out.println("Pin must be six number");
+                    } else {
+                        System.out.print("Confirm PIN      : ");
+                        String password2 = input.readLine().trim();
+                        if (!password2.matches(password)) {
+                            System.out.println("PIN doesn't match");
+                        } else {
+                            System.out.print("Balance        : ");
+                            Long tabungan = Long.valueOf(input.readLine().trim());
+                            if (!Values.isNumeric(password) || tabungan < 50000) {
+                                System.out.println("Please enter valid value!, Minimum balance Rp.50.000");
+                            } else {
+                                Customer cs = cc.getNameCif(cif);
+                                if (cs != null) {
+                                    System.out.println("Customer not found");
+                                } else {
+                                    cs.getCif();
+                                    Account newAccount = new Account();
+                                    newAccount.setAccount_name(cs.getFname() + " " + cs.getLname());
+                                    newAccount.setPasword(password);
+                                    newAccount.setBalance(tabungan);
+                                    newAccount.setCif(cs);
+
+                                    ac.createAccount(newAccount);
+                                    kembali2 = true;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            } while (!kembali2);
 
         } catch (Exception e) {
             e.printStackTrace();
