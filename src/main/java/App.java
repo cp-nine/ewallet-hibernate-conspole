@@ -145,19 +145,19 @@ public class App {
                             System.out.println("PIN doesn't match");
                         } else {
                             System.out.print("Balance        : ");
-                            Long tabungan = Long.valueOf(input.readLine().trim());
-                            if (!Values.isNumeric(password) || tabungan < 50000) {
+                            String tabungan = input.readLine().trim();
+                            if (!Values.isNumeric(tabungan) || Long.valueOf(tabungan) < 50000) {
                                 System.out.println("Please enter valid value!, Minimum balance Rp.50.000");
                             } else {
                                 Customer cs = cc.getNameCif(cif);
-                                if (cs != null) {
+                                if (cs.equals(null)) {
                                     System.out.println("Customer not found");
                                 } else {
                                     cs.getCif();
                                     Account newAccount = new Account();
                                     newAccount.setAccount_name(cs.getFname() + " " + cs.getLname());
                                     newAccount.setPasword(password);
-                                    newAccount.setBalance(tabungan);
+                                    newAccount.setBalance(Long.valueOf(tabungan));
                                     newAccount.setCif(cs);
 
                                     ac.createAccount(newAccount);

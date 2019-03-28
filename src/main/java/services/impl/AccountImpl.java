@@ -6,7 +6,7 @@ import services.IAccount;
 
 public class AccountImpl implements IAccount {
 
-    private static DataAccount dataAccount;
+    private static DataAccount dataAccount = new DataAccount();
 
     public boolean createNewAccount(Account acc) {
         boolean isAdded = false;

@@ -30,8 +30,8 @@ public class CustomerImpl implements ICustomer {
     }
 
     public Customer getCustomerNameAndCif(String cif) {
-
-        return dataCustomer.getNameCif(cif);
+        Customer customer = dataCustomer.getNameCif(cif);
+        return customer;
 
     }
 

@@ -1,6 +1,9 @@
 package entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "tb_account")
@@ -8,11 +11,14 @@ public class Account {
 
     @Id
     @Column(name = "account_number")
-    private Integer account_number;
+    private Long account_number;
     @Column(name = "account_name")
     private String account_name;
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "open_date")
-    private String open_date;
+    private Date open_date;
     @Column(name = "balance")
     private Long balance;
     @Column(name = "password")
@@ -26,11 +32,11 @@ public class Account {
     public Account() {
     }
 
-    public Integer getAccount_number() {
+    public Long getAccount_number() {
         return account_number;
     }
 
-    public void setAccount_number(Integer account_number) {
+    public void setAccount_number(Long account_number) {
         this.account_number = account_number;
     }
 
@@ -42,11 +48,11 @@ public class Account {
         this.account_name = account_name;
     }
 
-    public String getOpen_date() {
+    public Date getOpen_date() {
         return open_date;
     }
 
-    public void setOpen_date(String open_date) {
+    public void setOpen_date(Date open_date) {
         this.open_date = open_date;
     }
 
