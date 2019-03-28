@@ -175,4 +175,125 @@ public class App {
         }
     }
 
+    // Main Menu/
+    static void mainMenu() {
+
+        boolean kembali = false;
+        try {
+            do {
+//                Long acNumber = listAccount.get(0).getAccountNumber();
+
+                System.out.println();
+//                System.out.println("Welcome " + listAccount.get(0).getAccountName());
+
+                System.out.println("========= Main Menu =========");
+                System.out.println("1. Profile details");
+                System.out.println("2. Transaction Report");
+                System.out.println("3. Update PIN        ");
+                System.out.println("4. E-Wallet        ");
+                System.out.println("5. Create New E-Wallet ");
+                System.out.println("6. Un Reg E-Wallet ");
+                System.out.println("7. Log Out");
+                System.out.println("=============================");
+                System.out.println();
+                System.out.print("Select menu > ");
+                String valMenu = input.readLine().trim();
+                if (!Values.isNumeric(valMenu)) {
+                    System.out.println("Please input number");
+                } else {
+                    int menu = Integer.parseInt(valMenu);
+                    if (menu == 1) {
+//                        ac.getProfileAccount(listAccount.get(0).getCif());
+                    } else if (menu == 2) {
+//                        ac.transactionReport(acNumber);
+                    } else if (menu == 3) {
+//                        updatePin();
+                    } else if (menu == 4) {
+//                        if (wac.isAvailableWallet(acNumber) > 0) {
+                        if (0 <= 0) {
+                            System.out.println();
+//                            wc.getAllWallet(acNumber);
+
+                            System.out.print("Select wallet: ");
+                            System.out.println();
+                            String valNumber = input.readLine().trim();
+                            if (!Values.isNumeric(valNumber)) {
+                                System.out.println("Please input number");
+                            } else {
+                                int number = Integer.parseInt(valNumber);
+
+                                int x = 1;
+//                                for (Wallet w : wc.getAllWalletId(acNumber)) {
+//                                    if (number == (x++)) {
+//                                        idWallet = w.getId();
+//                                    }
+//                                }
+//                                System.out.println();
+                                // get wallet by wallet id
+//                                wallet(idWallet);
+                            }
+
+                        } else {
+                            System.out.println("You have not wallet yet, do you want to create? (y/n)");
+                            String option = input.readLine();
+                            if (option.equals("n")) {
+                                System.out.println("Thank You..");
+                            } else if (option.equals("y")) {
+
+//                                createWalletAccount();
+
+                            } else {
+                                System.out.println("Wrong input..");
+                            }
+                        }
+                    } else if (menu == 5) {
+//                        createWalletAccount();
+                    } else if (menu == 6) {
+//                        if (wac.isAvailableWallet(acNumber) <= 0) {
+                            if (0 <= 0) {
+                            System.out.println("You have not wallet yet.");
+                        } else {
+                            System.out.println("Are you sure to disactivate your wallet ?");
+                            System.out.print("Input your wallet id: ");
+                            String valWal = input.readLine().trim();
+                            if (!Values.isNumeric(valWal) || valWal.length() < 1) {
+                                System.out.println("Please input valid id");
+                            } else {
+                                Integer walletid = Integer.parseInt(valWal);
+//                                if (wac.isRegister(acNumber, walletid) < 1) {
+                                if (0 <= 0) {
+                                    System.out.println("Wallet not wound..");
+                                } else {
+//                                    wac.unreg(acNumber, walletid);
+                                }
+                            }
+                        }
+
+                    } else if (menu == 7) {
+                        System.exit(1);
+                    }
+                }
+            } while (!kembali);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Input not valid..");
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
