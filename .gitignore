@@ -1,8 +1,11 @@
 # default intellij dir
 .idea
 
+# intellij file
+.iml
+
 # default eclips dir
-bin
+bin/
 .settings
 
 # eclips file
