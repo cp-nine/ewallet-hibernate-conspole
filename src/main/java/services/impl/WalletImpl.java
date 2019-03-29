@@ -17,6 +17,25 @@ public class WalletImpl implements IWallet {
     }
 
     @Override
+    public List<WalletAccount> getAllWalletForTrans(Long acn, Integer wallId) {
+        return dataWallet.getAllWalletForTrans(acn, wallId);
+    }
+
+    @Override
+    public Integer getLastBallance(Integer wid) {
+        Integer value = null;
+        try {
+            Integer balance = dataWallet.getLastActiveBalance(wid);
+            if (balance != null){
+                value = balance;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    @Override
     public String getType(Integer wid) {
         return dataWallet.getTypeWallet(wid);
     }

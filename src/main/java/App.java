@@ -1,9 +1,6 @@
 import config.Values;
 import controller.*;
-import entities.Account;
-import entities.Customer;
-import entities.TrxEntity;
-import entities.Wallet;
+import entities.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -396,15 +393,14 @@ public class App {
                 } else {
                     int menu = Integer.parseInt(valMenu);
                     if (menu == 1) {
-//                        topUp();
+                        topUp();
                     } else if (menu == 2) {
-//                        transferByWallet();
 //                        wac.getWalletAccountList(idWallet);
                     } else if (menu == 3) {
 //                        updateWalletAccount();
                         System.out.println("Change Wallet Account");
                     } else if (menu ==4) {
-//                        transferByWallet();
+                        transferByWallet();
                     } else if (menu == 5) {
 //                        tarikTunaiWallet();
                     } else if (menu == 6) {
@@ -489,5 +485,113 @@ public class App {
             e.printStackTrace();
         }
     }
+
+    static void topUp() {
+
+        boolean kembali3 = false;
+        try {
+
+            do {
+                System.out.println("===== Select Top Up Method =====");
+
+                System.out.println("1. By Rekening");
+                int no = 2;
+                Long accn = listAccount.get(0).getAccountNumber();
+                for (WalletAccount w : wc.getAllWallet(accn, idWallet)) {
+                    System.out.println((no++) + ". By " + w.getWallet_id().getDescription());
+                }
+                System.out.println("0. Back");
+                System.out.println("====================");
+                System.out.print("Select menu >");
+                String valMenu = input.readLine().trim();
+                if (!Values.isNumeric(valMenu)) {
+                    System.out.println("Please input number");
+                } else {
+                    int menu = Integer.parseInt(valMenu);
+                    int x = 2;
+                    for (WalletAccount w : wc.getAllWallet(accn, idWallet))
+                        if (menu == (x++)) {
+                            topUpByWallet(w.getWallet_id().getWallet_id());
+                        }
+                    if (menu == 1) {
+                        topUpByRek(listAccount.get(0).getAccountNumber());
+                    }
+                    if (menu == 0) {
+                        kembali3 = true;
+                    }
+                }
+
+            } while (!kembali3);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    static void topUpByWallet(Integer byWallet) {
+        try {
+            if (wc.getWalletDescType(byWallet).equals("e-banking")) {
+                topUpByRek(listAccount.get(0).getAccountNumber());
+            } else {
+                System.out.println("Top up you wallet..");
+                System.out.print("Please insert top up nominal :");
+                String valNtop = input.readLine().trim();
+                if (!Values.isNumeric(valNtop)) {
+                    System.out.println("Please input number");
+                } else {
+                    Long ntop = Long.parseLong(valNtop);
+                    Integer wbal = wc.getLastBalance(byWallet);
+                    if (wbal == 0 || wbal < 2000 || wbal < ntop) {
+                        System.out.println("Your balance is not enough");
+                    } else {
+                        if (ntop < 1000) {
+                            System.out.println("Minimum top up is 1000");
+                        } else {
+                            TrxEntity trxEntity = new TrxEntity();
+                            trxEntity.setAmount(ntop);
+                            trxEntity.setAcnDebet(listAccount.get(0).getAccountNumber());
+                            trxEntity.setTrxType(topUp);
+                            wac.topup(trxEntity, idWallet, byWallet);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void topUpByRek(Long accountNumber) {
+        try {
+            System.out.println("Top up you wallet..");
+            System.out.print("Please insert top up nominal :");
+            String valNtop = input.readLine().trim();
+            if (!Values.isNumeric(valNtop)) {
+                System.out.println("Please input number");
+            } else {
+                Long ntop = Long.parseLong(valNtop);
+                Integer lastBalance = ac.getLastBalance(accountNumber);
+                if (lastBalance == 0 || lastBalance < 2000 || lastBalance < ntop) {
+                    System.out.println("Your balance is not enough");
+                } else {
+                    if (ntop < 1000) {
+                        System.out.println("Minimum top up is 1000");
+                    } else {
+                        TrxEntity trxEntity = new TrxEntity();
+                        trxEntity.setAmount(ntop);
+                        trxEntity.setAcnDebet(accountNumber);
+                        trxEntity.setTrxType(topUp);
+                        wac.topup(trxEntity, idWallet);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

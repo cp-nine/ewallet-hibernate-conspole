@@ -9,4 +9,7 @@ public interface ITrx {
     List<TrxEntity> getTransReport(Long acn);
     boolean transfer(TrxEntity trxEntity);
     boolean tariktunai(TrxEntity trxEntity);
+    void topUp(TrxEntity trxEntity, Integer forWallet, Integer byWallet);
+
+    void topUp(TrxEntity trxEntity, Integer forWallet);
 }

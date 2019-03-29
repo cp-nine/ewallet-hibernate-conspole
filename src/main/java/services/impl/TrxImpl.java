@@ -2,6 +2,7 @@ package services.impl;
 
 import data.DataAccount;
 import data.DataTrx;
+import data.DataWallet;
 import entities.TrxEntity;
 import services.ITrx;
 
@@ -11,6 +12,7 @@ public class TrxImpl implements ITrx {
 
     private static DataTrx dataTrx = new DataTrx();
     private static DataAccount dataAccount = new DataAccount();
+    private static DataWallet dataWallet = new DataWallet();
 
     // get all transaction report by account number
     @Override
@@ -43,5 +45,19 @@ public class TrxImpl implements ITrx {
             e.printStackTrace();
         }
         return trans;
+    }
+
+    @Override
+    public void topUp(TrxEntity trxEntity, Integer forWallet, Integer byWallet) {
+        dataWallet.updateBalancePlus(trxEntity.getAmount(),forWallet);
+        dataWallet.updateBalanceMinus(trxEntity.getAmount(), byWallet);
+        dataTrx.transaction(trxEntity);
+    }
+
+    @Override
+    public void topUp(TrxEntity trxEntity, Integer forWallet) {
+        dataWallet.updateBalancePlus(trxEntity.getAmount(), forWallet);
+        dataAccount.updateSaldoMinus(trxEntity.getAcnDebet(), trxEntity.getAmount());
+        dataTrx.transaction(trxEntity);
     }
 }

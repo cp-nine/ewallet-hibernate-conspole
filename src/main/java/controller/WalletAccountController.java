@@ -7,6 +7,8 @@ import services.IWalletAccount;
 import services.impl.TrxImpl;
 import services.impl.WalletAccountImpl;
 
+import java.util.List;
+
 public class WalletAccountController {
 
     private static IWalletAccount iwc = new WalletAccountImpl();
@@ -35,5 +37,13 @@ public class WalletAccountController {
         } else {
             System.out.println("Cash Withdrawal failed");
         }
+    }
+
+    public void topup(TrxEntity trxEntity, Integer forWallet) {
+        iTrx.topUp(trxEntity, forWallet);
+    }
+
+    public void topup(TrxEntity trxEntity, Integer forWallet, Integer byWallet) {
+        iTrx.topUp(trxEntity, forWallet, byWallet);
     }
 }

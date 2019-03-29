@@ -32,6 +32,10 @@ public class WalletController {
         }
     }
 
+    public List<WalletAccount> getAllWallet(Long acn, Integer wallId) {
+        return iWallet.getAllWalletForTrans(acn, wallId);
+    }
+
     public List<Wallet> getAllWalletId(Long acn) {
         List<Wallet> wallId = null;
 
@@ -59,6 +63,20 @@ public class WalletController {
             Wallet wallet = iWallet.getWp(wid);
             if (wallet != null) {
                 value = wallet;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
+
+    public Integer getLastBalance(Integer wid) {
+        Integer value = 0;
+        try {
+            Integer balance = iWallet.getLastBallance(wid);
+            if (balance != null) {
+                value = balance.intValue();
             }
 
         } catch (Exception e) {

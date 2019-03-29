@@ -37,4 +37,5 @@ public class WalletAccountImpl implements IWalletAccount {
         return dataWalletAccount.getAllWalletId(acn);
     }
 
+
 }
