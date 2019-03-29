@@ -162,7 +162,7 @@ public class App {
                                         } else {
                                             cs.getCif();
                                             Account newAccount = new Account();
-                                            newAccount.setAccount_name(cs.getFname() + " " + cs.getLname());
+                                            newAccount.setAccountName(cs.getFname() + " " + cs.getLname());
                                             newAccount.setUsername(username);
                                             newAccount.setPasword(password);
                                             newAccount.setBalance(Long.valueOf(tabungan));
@@ -214,7 +214,7 @@ public class App {
         boolean kembali = false;
         try {
             do {
-                Long acNumber = listAccount.get(0).getAccount_number();
+                Long acNumber = listAccount.get(0).getAccountNumber();
                 System.out.println();
 //                System.out.println("Welcome " + listAccount.get(0).getAccountName());
 
@@ -335,7 +335,7 @@ public class App {
                 System.out.println("Wallei Id      : " + wallet.getWallet_id());
                 System.out.println("Description    : " + wallet.getDescription());
                 System.out.println("Type           : " + wallet.getType());
-                System.out.println("Active Balance : " + Values.rupiah(ac.getLastBalance(listAccount.get(0).getAccount_number())));
+                System.out.println("Active Balance : " + Values.rupiah(ac.getLastBalance(listAccount.get(0).getAccountNumber())));
                 System.out.println("============================================");
                 System.out.println();
 

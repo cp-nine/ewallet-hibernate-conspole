@@ -15,7 +15,7 @@ public class DataAccount {
         Session sesn = factory.openSession();
         boolean isAdded = false;
         try {
-            account.setAccount_number(Long.valueOf(getCode()));
+            account.setAccountNumber(Long.valueOf(getCode()));
             Transaction trx = sesn.beginTransaction();
             sesn.save(account);
             trx.commit();
