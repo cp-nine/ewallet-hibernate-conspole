@@ -402,9 +402,9 @@ public class App {
                     } else if (menu ==4) {
                         transferByWallet();
                     } else if (menu == 5) {
-//                        tarikTunaiWallet();
+                        tarikTunaiWallet();
                     } else if (menu == 6) {
-//                        payProduct();
+                        payProduct();
                     } else if (menu == 7) {
                         kembali2 = true;
                     }
@@ -585,6 +585,177 @@ public class App {
                         trxEntity.setTrxType(topUp);
                         wac.topup(trxEntity, idWallet);
                     }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+//    static void transferByAccount() {
+//        try {
+//            System.out.println("E-Wallet Transfer By Account");
+//            System.out.print("Enter the destination account number : ");
+//            String valAcn = input.readLine().trim();
+//            if (!Values.isNumeric(valAcn)) {
+//                System.out.println("Please input number");
+//            } else {
+//                Long acnt = Long.parseLong(valAcn);
+//                System.out.print("Input nominal : ");
+//                String valNtop = input.readLine().trim();
+//                if (!Values.isNumeric(valNtop)) {
+//                    System.out.println("Please input number");
+//                } else {
+//                    Long ntop = Long.parseLong(valNtop);
+//                    Integer lastBalance = ac.getLastBalance(listAccount.get(0).getAccountNumber());
+//                    if (lastBalance == 0 || lastBalance < 5000 || lastBalance < ntop) {
+//                        System.out.println("Your balance is not enough");
+//                    } else {
+//                        if (ntop < 1000) {
+//                            System.out.println("Minimum transfer is 1000");
+//                        } else {
+//
+//                            TrxEntity trxEntity = new TrxEntity();
+//                            trxEntity.setAcnDebet(acnt);
+//                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+//                            trxEntity.setAmount(ntop);
+//                            trxEntity.setTrxType(transfer);
+//                            wac.transfer(trxEntity);
+//                        }
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    static void transferByWallet() {
+        try {
+            TrxEntity trxEntity = new TrxEntity();
+
+            System.out.println("E-Wallet Transfer By Wallet");
+
+            System.out.println("1. Transfer To Other Wallet");
+            System.out.println("2. Transfer To Other Account");
+            int pilihan = Integer.parseInt(input.readLine());
+
+            if (pilihan == 1) {
+                System.out.print("Insert destination Wallet Id: ");
+                Integer toWallet = Integer.parseInt(input.readLine());
+                System.out.print("Insert transfer nominal  : ");
+                String valNtop = input.readLine().trim();
+                if (!Values.isNumeric(valNtop)) {
+                    System.out.println("Please input number");
+                } else {
+                    Long ntop = Long.parseLong(valNtop);
+                    Integer wbal = wc.getLastBalance(idWallet);
+                    if (wbal == 0 || wbal < 2000 || wbal < ntop) {
+                        System.out.println("Your balance is not enough");
+                    } else {
+                        if (ntop < 1000) {
+                            System.out.println("Minimum transfer is 1000");
+                        } else {
+                            trxEntity.setAmount(ntop);
+                            trxEntity.setAcnDebet(listAccount.get(0).getAccountNumber());
+                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                            trxEntity.setTrxType(transfer);
+                            wac.transferByWallet(trxEntity, idWallet, toWallet);
+                        }
+                    }
+                }
+
+            } else if (pilihan == 2) {
+                System.out.print("Enter the destination account number : ");
+                Long acnt = Long.parseLong(input.readLine());
+                System.out.print("Insert transfer nominal  : ");
+                String valNtop = input.readLine().trim();
+                if (!Values.isNumeric(valNtop)) {
+                    System.out.println("Please input number");
+                } else {
+                    Long ntop = Long.parseLong(valNtop);
+                    Integer wbal = wc.getLastBalance(idWallet);
+                    if (wbal == 0 || wbal < 2000 || wbal < ntop) {
+                        System.out.println("Your balance is not enough");
+                    } else {
+                        if (ntop < 1000) {
+                            System.out.println("Minimum transfer is 1000");
+                        } else {
+                            trxEntity.setAcnDebet(acnt);
+                            trxEntity.setAmount(ntop);
+                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                            trxEntity.setTrxType(transfer);
+                            wac.transferByWallet(trxEntity, idWallet);
+                        }
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void tarikTunaiWallet() {
+        try {
+            System.out.println("E-Wallet Cash Withdrawal Wallet");
+            System.out.print("Please insert nominal:");
+            String valNtop = input.readLine().trim();
+            if (!Values.isNumeric(valNtop)) {
+                System.out.println("Please input number");
+            } else {
+                Long ntop = Long.parseLong(valNtop);
+                Integer wbal = wc.getLastBalance(idWallet);
+                if (wbal == 0 || wbal < 62000 || wbal < ntop) {
+                    System.out.println("Your balance is not enough");
+                } else {
+                    if (ntop < 50000) {
+                        System.out.println("Cash Withdrawal Minimum 50000");
+                    } else {
+                        TrxEntity trxEntity = new TrxEntity();
+                        trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                        trxEntity.setAmount(ntop);
+                        trxEntity.setTrxType(tarikTunai);
+                        wac.tariktunai(trxEntity, idWallet);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    static void payProduct() {
+        try {
+            TrxEntity trxEntity = new TrxEntity();
+
+            System.out.println("==================== Pay Product ====================");
+            System.out.print("Insert store code : ");
+            String kodeToko = input.readLine().trim();
+            if (!Values.isNumeric(kodeToko)) {
+                System.out.println("Input not valid");
+            } else {
+            System.out.print("Insert payment nominal : ");
+            String valNtop = input.readLine().trim();
+            if (!Values.isNumeric(valNtop)) {
+                System.out.println("Please input number");
+            } else {
+                Long ntop = Long.parseLong(valNtop);
+                Integer wbal = wc.getLastBalance(idWallet);
+                if (wbal == 0 || wbal < 1000 || wbal < ntop) {
+                    System.out.println("Your balance is not enough");
+                } else {
+                    if (ntop < 1) {
+                        System.out.println("Please input nominal");
+                    } else {
+                        trxEntity.setAmount(ntop);
+                        trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                        trxEntity.setTrxType(pay);
+                        wac.transferByWallet(trxEntity, idWallet, Integer.parseInt(kodeToko));
+                    }
+                }
                 }
             }
 

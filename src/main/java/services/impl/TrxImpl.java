@@ -48,6 +48,19 @@ public class TrxImpl implements ITrx {
     }
 
     @Override
+    public boolean tariktunai(TrxEntity trxEntity, Integer wid) {
+        boolean trans = false;
+        try {
+            dataWallet.updateBalanceMinus(trxEntity.getAmount(), wid);
+            dataTrx.transaction(trxEntity);
+            trans = true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return trans;
+    }
+
+    @Override
     public void topUp(TrxEntity trxEntity, Integer forWallet, Integer byWallet) {
         dataWallet.updateBalancePlus(trxEntity.getAmount(),forWallet);
         dataWallet.updateBalanceMinus(trxEntity.getAmount(), byWallet);
@@ -58,6 +71,20 @@ public class TrxImpl implements ITrx {
     public void topUp(TrxEntity trxEntity, Integer forWallet) {
         dataWallet.updateBalancePlus(trxEntity.getAmount(), forWallet);
         dataAccount.updateSaldoMinus(trxEntity.getAcnDebet(), trxEntity.getAmount());
+        dataTrx.transaction(trxEntity);
+    }
+
+    @Override
+    public void transferByWallet(TrxEntity trxEntity, Integer wid) {
+        dataWallet.updateBalanceMinus(trxEntity.getAmount(), wid);
+        dataAccount.updateSaldoPlus(trxEntity.getAcnDebet(), trxEntity.getAmount());
+        dataTrx.transaction(trxEntity);
+    }
+
+    @Override
+    public void transferByWallet(TrxEntity trxEntity, Integer wid, Integer toWid) {
+        dataWallet.updateBalanceMinus(trxEntity.getAmount(), wid);
+        dataWallet.updateBalancePlus(trxEntity.getAmount(), toWid);
         dataTrx.transaction(trxEntity);
     }
 }

@@ -39,11 +39,27 @@ public class WalletAccountController {
         }
     }
 
+    public void tariktunai(TrxEntity trxEntity, Integer wid) {
+        if (!iTrx.tariktunai(trxEntity, wid)){
+            System.out.println("Cash Withdrawal success");
+        } else {
+            System.out.println("Cash Withdrawal failed");
+        }
+    }
+
     public void topup(TrxEntity trxEntity, Integer forWallet) {
         iTrx.topUp(trxEntity, forWallet);
     }
 
     public void topup(TrxEntity trxEntity, Integer forWallet, Integer byWallet) {
         iTrx.topUp(trxEntity, forWallet, byWallet);
+    }
+
+    public void transferByWallet(TrxEntity trxEntity, Integer wid) {
+        iTrx.transferByWallet(trxEntity, wid);
+    }
+
+    public void transferByWallet(TrxEntity trxEntity, Integer wid, Integer toWallet) {
+        iTrx.transferByWallet(trxEntity, wid, toWallet);
     }
 }
