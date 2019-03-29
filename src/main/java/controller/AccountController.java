@@ -46,5 +46,18 @@ public class AccountController extends BorderPadding {
         return isLogin;
     }
 
+    public Integer getLastBalance(Long acn) {
+        Integer value = 0;
+        try {
 
+            Long balance = accn.getLastBallance(acn);
+            if (balance != null) {
+                value = balance.intValue();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
 }

@@ -31,8 +31,6 @@ public class DataAccount {
         return isAdded;
     }
 
-
-
     public Account login(String username, String password) {
             Session sesn = factory.openSession();
             Account users = new Account();
@@ -67,6 +65,20 @@ public class DataAccount {
         return account;
     }
 
+    // get last balace
+    public Long getLastBalance(Long acNumber){
+        Long balance = null;
+        Session sesn = factory.openSession();
+        try {
+            Query query = (Query) sesn.createQuery("SELECT balance From Account Where account_number= :acn");
+            query.setParameter("acn", acNumber);
+            balance = (Long) query.uniqueResult();
+        } catch (HibernateException e) {
+            sesn.close();
+            e.printStackTrace();
+        }
+        return balance;
+    }
 
     // get kode
     public String getCode() {

@@ -13,4 +13,6 @@ public interface IAccount {
     // check is used by another account
     boolean isUsed(String username);
 
+    Long getLastBallance(Long acn);
+
 }

@@ -1,9 +1,8 @@
 import config.Values;
-import controller.AccountController;
-import controller.CustomerController;
-import controller.TransactionController;
+import controller.*;
 import entities.Account;
 import entities.Customer;
+import entities.Wallet;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,7 +16,8 @@ public class App {
     static TransactionController trx = new TransactionController();
     static CustomerController cc = new CustomerController();
     static AccountController ac = new AccountController();
-    //    static WalletController wc = new WalletController();
+    static WalletAccountController wac = new WalletAccountController();
+    static WalletController wc = new WalletController();
     static List<Account> listAccount = new ArrayList<Account>();
     static Integer idWallet = 0;
     static String topUp = "T0001";
@@ -241,10 +241,9 @@ public class App {
                     } else if (menu == 3) {
 //                        updatePin();
                     } else if (menu == 4) {
-//                        if (wac.isAvailableWallet(acNumber) > 0) {
-                        if (0 <= 0) {
+                        if (wac.isAvailableWallet(acNumber)) {
                             System.out.println();
-//                            wc.getAllWallet(acNumber);
+                            wc.getAllWallet(acNumber);
 
                             System.out.print("Select wallet: ");
                             System.out.println();
@@ -255,14 +254,13 @@ public class App {
                                 int number = Integer.parseInt(valNumber);
 
                                 int x = 1;
-//                                for (Wallet w : wc.getAllWalletId(acNumber)) {
-//                                    if (number == (x++)) {
-//                                        idWallet = w.getId();
-//                                    }
-//                                }
-//                                System.out.println();
-                                // get wallet by wallet id
-//                                wallet(idWallet);
+                                for (Wallet w : wc.getAllWalletId(acNumber)) {
+                                    if (number == (x++)) {
+                                        idWallet = w.getWallet_id();
+                                    }
+                                }
+//                                 get wallet by wallet id
+                                wallet(idWallet);
                             }
 
                         } else {
@@ -313,5 +311,116 @@ public class App {
         }
 
     }
+
+    static void wallet(Integer wid) {
+        if (wc.getWalletDescType(wid).equals("e-banking")) {
+            walletEbanking();
+            System.out.println("Ebanking");
+        } else if (wc.getWalletDescType(wid).equals("e-payment")) {
+            walletEpayment();
+            System.out.println("Epayment");
+        } else {
+            System.out.println(wc.getWalletDescType(wid)+"tidak ketemu");
+        }
+    }
+
+
+    static void walletEbanking() {
+        boolean kembali2 = false;
+        try {
+
+            do {
+                Wallet wallet = wc.getWp(idWallet);
+                System.out.println("=============== Profiles ===================");
+                System.out.println("Wallei Id      : " + wallet.getWallet_id());
+                System.out.println("Description    : " + wallet.getDescription());
+                System.out.println("Type           : " + wallet.getType());
+                System.out.println("Active Balance : " + Values.rupiah(ac.getLastBalance(listAccount.get(0).getAccount_number())));
+                System.out.println("============================================");
+                System.out.println();
+
+                System.out.println("===== E-Wallet Banking =====");
+                System.out.println("1. Transfer");
+                System.out.println("2. Cash Withdrawal");
+                System.out.println("3. Back");
+                System.out.println("====================");
+                System.out.print("Select menu > ");
+                String valMenu = input.readLine().trim();
+                if (!Values.isNumeric(valMenu)) {
+                    System.out.println("Please input number");
+                } else {
+                    int menu = Integer.parseInt(valMenu);
+                    if (menu == 1) {
+//                        transferByAccount();
+                    } else if (menu == 2) {
+//                        tarikTunai();
+                    } else if (menu == 3) {
+                        kembali2 = true;
+                    }
+                }
+
+            } while (!kembali2);
+
+        } catch (Exception e) {
+            System.out.println("Input not valid..");
+        }
+    }
+
+    static void walletEpayment() {
+        boolean kembali2 = false;
+        try {
+
+            do {
+                Wallet wallet = wc.getWp(idWallet);
+                System.out.println("=============== Profiles ===================");
+                System.out.println("Wallei Id      : " + wallet.getWallet_id());
+                System.out.println("Description    : " + wallet.getDescription());
+                System.out.println("Type           : " + wallet.getType());
+                System.out.println("Active Balance : " + Values.rupiah(wallet.getActiveBalance()));
+                System.out.println("============================================");
+                System.out.println();
+                System.out.println("===== E-Wallet Payment =====");
+                System.out.println("1. Top Up");
+                System.out.println("2. Wallet Account");
+                System.out.println("3. Change Wallet Account");
+                System.out.println("4. Transfer");
+                System.out.println("5. Cash Withdrawal");
+                System.out.println("6. Pay Product");
+                System.out.println("7. Back");
+                System.out.println("====================");
+                System.out.print("Select menu > ");
+                String valMenu = input.readLine().trim();
+                if (!Values.isNumeric(valMenu)) {
+                    System.out.println("Please input number");
+                } else {
+                    int menu = Integer.parseInt(valMenu);
+                    if (menu == 1) {
+//                        topUp();
+                    } else if (menu == 2) {
+//                        transferByWallet();
+//                        wac.getWalletAccountList(idWallet);
+                    } else if (menu == 3) {
+//                        updateWalletAccount();
+                        System.out.println("Change Wallet Account");
+                    } else if (menu ==4) {
+//                        transferByWallet();
+                    } else if (menu == 5) {
+//                        tarikTunaiWallet();
+                    } else if (menu == 6) {
+//                        payProduct();
+                    } else if (menu == 7) {
+                        kembali2 = true;
+                    }
+                }
+
+            } while (!kembali2);
+
+        } catch (Exception e) {
+            System.out.println("Input not valid..");
+        }
+    }
+
+
+
 
 }

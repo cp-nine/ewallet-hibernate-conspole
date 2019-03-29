@@ -44,4 +44,19 @@ public class AccountImpl implements IAccount {
             }
         return isUsed;
     }
+
+    @Override
+    public Long getLastBallance(Long acn) {
+
+        Long value = null;
+        try {
+            Long balance = dataAccount.getLastBalance(acn);
+            if (balance != null){
+                value = balance;
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return value;
+    }
 }

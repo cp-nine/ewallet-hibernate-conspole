@@ -1,8 +1,6 @@
 package config;
 
-import entities.Account;
-import entities.Customer;
-import entities.TrxEntity;
+import entities.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -31,6 +29,8 @@ public class HibernateConfig {
                 config.addAnnotatedClass(Customer.class);
                 config.addAnnotatedClass(Account.class);
                 config.addAnnotatedClass(TrxEntity.class);
+                config.addAnnotatedClass(Wallet.class);
+                config.addAnnotatedClass(WalletAccount.class);
 
                 serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
                 factory = config.buildSessionFactory(serviceRegistry);
