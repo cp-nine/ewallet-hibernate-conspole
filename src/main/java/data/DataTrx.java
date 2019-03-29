@@ -33,7 +33,7 @@ public class DataTrx {
 
     }
 
-    public boolean transfer(TrxEntity trxEntity){
+    public boolean transaction(TrxEntity trxEntity){
         Session sesn = factory.openSession();
         boolean isAdded = false;
         try {
@@ -51,5 +51,6 @@ public class DataTrx {
         }
         return isAdded;
     }
+
 
 }

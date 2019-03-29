@@ -22,6 +22,18 @@ public class WalletAccountController {
     }
 
     public void transfer(TrxEntity trxEntity) {
-        iTrx.transfer(trxEntity);
+        if (!iTrx.transfer(trxEntity)){
+            System.out.println("Transfer success");
+        } else {
+            System.out.println("Transfer failed");
+        }
+    }
+
+    public void tariktunai(TrxEntity trxEntity) {
+        if (!iTrx.tariktunai(trxEntity)){
+            System.out.println("Cash Withdrawal success");
+        } else {
+            System.out.println("Cash Withdrawal failed");
+        }
     }
 }

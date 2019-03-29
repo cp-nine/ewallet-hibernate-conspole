@@ -354,7 +354,7 @@ public class App {
                     if (menu == 1) {
                         transferByAccount();
                     } else if (menu == 2) {
-//                        tarikTunai();
+                        tarikTunai();
                     } else if (menu == 3) {
                         kembali2 = true;
                     }
@@ -460,5 +460,34 @@ public class App {
         }
     }
 
+    static void tarikTunai() {
+        try {
+            System.out.println("E-Wallet Cash Withdrawal");
+            System.out.print("Please insert nominal: ");
+            String valNtop = input.readLine().trim();
+            if (!Values.isNumeric(valNtop)) {
+                System.out.println("Please input number");
+            } else {
+                Long ntop = Long.parseLong(valNtop);
+                Integer lastBalance = ac.getLastBalance(listAccount.get(0).getAccountNumber());
+                if (lastBalance == 0 || lastBalance < 60000 || lastBalance < ntop) {
+                    System.out.println("Your balance is not enough");
+                } else {
+                    if (ntop < 50000) {
+                        System.out.println("Cash Withdrawal Minimum 50000");
+                    } else {
+                        TrxEntity trxEntity = new TrxEntity();
+                        trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                        trxEntity.setAmount(ntop);
+                        trxEntity.setTrxType(tarikTunai);
+                        wac.tariktunai(trxEntity);
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

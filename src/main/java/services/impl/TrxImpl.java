@@ -24,7 +24,20 @@ public class TrxImpl implements ITrx {
         try {
             dataAccount.updateSaldoMinus(trxEntity.getAcnCredit(), trxEntity.getAmount());
             dataAccount.updateSaldoPlus(trxEntity.getAcnDebet(), trxEntity.getAmount());
-            dataTrx.transfer(trxEntity);
+            dataTrx.transaction(trxEntity);
+            trans = true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return trans;
+    }
+
+    @Override
+    public boolean tariktunai(TrxEntity trxEntity) {
+        boolean trans = false;
+        try {
+            dataAccount.updateSaldoMinus(trxEntity.getAcnCredit(), trxEntity.getAmount());
+            dataTrx.transaction(trxEntity);
             trans = true;
         } catch (Exception e){
             e.printStackTrace();
