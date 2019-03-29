@@ -2,12 +2,15 @@
 .idea
 
 # intellij file
-.iml
+*.iml
 
 # default eclips dir
 bin/
 .settings
 
 # eclips file
-.classpath
-.project
+*.classpath
+*.project
+
+# directory
+target/
