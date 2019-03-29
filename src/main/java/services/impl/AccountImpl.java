@@ -39,5 +39,13 @@ public class AccountImpl implements IAccount {
         return dataAccount.getCustomer(cif);
     }
 
+    public boolean isUsed(String username) {
+        boolean isUsed = false;
+            if (dataAccount.getByUsername(username)){
+                isUsed = true;
+            }
+        return isUsed;
+    }
+        
 }
 

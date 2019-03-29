@@ -11,4 +11,7 @@ public interface IAccount {
     Account login(String cif, String password);
     Account getAccount(String cif);
 
+    // check is used by another account
+    boolean isUsed(String username);
+
 }
