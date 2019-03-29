@@ -1,3 +1,4 @@
+import config.Code;
 import config.Values;
 import controller.*;
 import entities.*;
@@ -6,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class App {
 
@@ -268,17 +270,16 @@ public class App {
                                 System.out.println("Thank You..");
                             } else if (option.equals("y")) {
 
-//                                createWalletAccount();
+                                createWalletAccount();
 
                             } else {
                                 System.out.println("Wrong input..");
                             }
                         }
                     } else if (menu == 5) {
-//                        createWalletAccount();
+                        createWalletAccount();
                     } else if (menu == 6) {
-//                        if (wac.isAvailableWallet(acNumber) <= 0) {
-                        if (0 <= 0) {
+                        if (!wac.isAvailableWallet(acNumber)) {
                             System.out.println("You have not wallet yet.");
                         } else {
                             System.out.println("Are you sure to disactivate your wallet ?");
@@ -306,6 +307,67 @@ public class App {
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Input not valid..");
+        }
+
+    }
+
+    // create new wallet
+    static void createWalletAccount() {
+        boolean kembali3 = false;
+
+        try {
+
+            do {
+                System.out.println("Select account type : ");
+                System.out.println("1. E-Banking");
+                System.out.println("2. E-Payment");
+                System.out.println("3. Back");
+                System.out.println("---------------");
+                System.out.print("Select menu :");
+                String valPil = input.readLine().trim();
+                if (!Values.isNumeric(valPil)) {
+                    System.out.println("Please insert number");
+                } else {
+                    int pilihan = Integer.parseInt(valPil);
+                    String type = "e-banking";
+
+                    if (pilihan == 3) {
+                        kembali3 = true;
+                    } else {
+                        if (pilihan == 1) {
+                            type = "e-banking";
+                        } else if (pilihan == 2) {
+                            type = "e-payment";
+                        }
+
+                        final String uuid = UUID.randomUUID().toString();
+                        String codever = Code.makeCode("", uuid, 5);
+                        System.out.println("Verfication code - " + codever);
+                        System.out.println("Create wallet account");
+//                        System.out.print("Enter account number : ");
+//                        String valAccount = input.readLine().trim();
+//                        if (!Values.isNumeric(valAccount)) {
+//                            System.out.println("Please insert number");
+//                        } else {
+//                            Long accountNumber = Long.parseLong(valAccount);
+                            System.out.print("Description :");
+                            String description = input.readLine();
+                            System.out.print("Insert verification code: ");
+                            String verify = input.readLine();
+                            if (!verify.equals(codever)) {
+                                System.out.println("Verification code doesn't match!!!");
+                            } else {
+                                wac.addWalletAccount(type, description, listAccount.get(0).getAccountNumber());
+                                kembali3 = true;
+                            }
+//                        }
+                    }
+                }
+
+            } while (!kembali3);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -592,44 +654,6 @@ public class App {
             e.printStackTrace();
         }
     }
-
-//    static void transferByAccount() {
-//        try {
-//            System.out.println("E-Wallet Transfer By Account");
-//            System.out.print("Enter the destination account number : ");
-//            String valAcn = input.readLine().trim();
-//            if (!Values.isNumeric(valAcn)) {
-//                System.out.println("Please input number");
-//            } else {
-//                Long acnt = Long.parseLong(valAcn);
-//                System.out.print("Input nominal : ");
-//                String valNtop = input.readLine().trim();
-//                if (!Values.isNumeric(valNtop)) {
-//                    System.out.println("Please input number");
-//                } else {
-//                    Long ntop = Long.parseLong(valNtop);
-//                    Integer lastBalance = ac.getLastBalance(listAccount.get(0).getAccountNumber());
-//                    if (lastBalance == 0 || lastBalance < 5000 || lastBalance < ntop) {
-//                        System.out.println("Your balance is not enough");
-//                    } else {
-//                        if (ntop < 1000) {
-//                            System.out.println("Minimum transfer is 1000");
-//                        } else {
-//
-//                            TrxEntity trxEntity = new TrxEntity();
-//                            trxEntity.setAcnDebet(acnt);
-//                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
-//                            trxEntity.setAmount(ntop);
-//                            trxEntity.setTrxType(transfer);
-//                            wac.transfer(trxEntity);
-//                        }
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 
     static void transferByWallet() {
         try {

@@ -15,7 +15,7 @@ public class WalletAccount {
     @Column(name = "status")
     private String status;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "wallet_id")
     private Wallet wallet_id;
 

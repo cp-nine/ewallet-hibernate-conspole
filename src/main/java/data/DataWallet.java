@@ -1,10 +1,13 @@
 package data;
 
+import config.Code;
 import config.HibernateConfig;
+import config.Values;
 import entities.Wallet;
 import entities.WalletAccount;
 import org.hibernate.*;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,5 +146,27 @@ public class DataWallet {
             sesn.close();
         }
         return isSaved;
+    }
+
+    // get kode
+    public String getCode(){
+        Session sesn = factory.openSession();
+        String lastValue = "";
+        try {
+            Query query = sesn.createQuery("SELECT COUNT(wallet_id)+1 FROM Wallet");
+            Long last = (Long) query.uniqueResult();
+            int val1 = Values.getRandomNumberInRange(100000,9000000);
+            int val2 = Values.getRandomNumberInRange(1,9);
+            String lastIndex = String.valueOf(val1);
+
+            lastIndex = lastIndex+last;
+
+            lastValue = Code.makeCode(String.valueOf(val2),lastIndex,5);
+
+        } finally {
+            sesn.close();
+        }
+
+        return lastValue;
     }
 }

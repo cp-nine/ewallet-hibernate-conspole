@@ -3,10 +3,7 @@ package data;
 import config.HibernateConfig;
 import entities.Wallet;
 import entities.WalletAccount;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,26 @@ public class DataWalletAccount {
 
     // get session factory connection (replacement DBConnection)
     private static SessionFactory factory = new HibernateConfig().getSessionFactory();
+
+
+    public boolean addWalletAccount(WalletAccount walletAccount){
+        Session sesn = factory.openSession();
+        boolean isAdded = false;
+        try {
+            Transaction trx = sesn.beginTransaction();
+            sesn.save(walletAccount);
+            trx.commit();
+            isAdded = true;
+        } catch(Exception sqlException) {
+            if(sesn.getTransaction()!=null) {
+                sesn.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return isAdded;
+    }
 
     public List<WalletAccount> isAvailableWallet(Long acnumber) {
         Session sesn = factory.openSession();

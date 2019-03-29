@@ -62,4 +62,8 @@ public class WalletAccountController {
     public void transferByWallet(TrxEntity trxEntity, Integer wid, Integer toWallet) {
         iTrx.transferByWallet(trxEntity, wid, toWallet);
     }
+
+    public void addWalletAccount(String type, String description, Long accountNumber) {
+        iwc.addWalletAccount(type, description, accountNumber);
+    }
 }

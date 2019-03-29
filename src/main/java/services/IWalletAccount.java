@@ -10,4 +10,5 @@ public interface IWalletAccount {
 
     Long getAcnNumber(Integer id);
     List<Wallet> getAllWalletId(Long acn);
+    boolean addWalletAccount(String type, String description, Long acn); //?
 }
