@@ -1,6 +1,7 @@
 import config.Values;
 import controller.AccountController;
 import controller.CustomerController;
+import controller.TransactionController;
 import entities.Account;
 import entities.Customer;
 
@@ -14,6 +15,7 @@ public class App {
 
     static InputStreamReader inputStream = new InputStreamReader(System.in);
     static BufferedReader input = new BufferedReader(inputStream);
+    static TransactionController trx = new TransactionController();
     static CustomerController cc = new CustomerController();
     static AccountController ac = new AccountController();
     //    static WalletAccountController wac = new WalletAccountController();
@@ -204,7 +206,7 @@ public class App {
         boolean kembali = false;
         try {
             do {
-//                Long acNumber = listAccount.get(0).getAccountNumber()
+                Long acNumber = listAccount.get(0).getAccount_number();
 
                 System.out.println();
 //                System.out.println("Welcome " + listAccount.get(0).getAccountName());
@@ -228,7 +230,7 @@ public class App {
                     if (menu == 1) {
 //                        ac.getProfileAccount(listAccount.get(0).getCif());
                     } else if (menu == 2) {
-//                        ac.transactionReport(acNumber);
+                        trx.transactionReport(acNumber);
                     } else if (menu == 3) {
 //                        updatePin();
                     } else if (menu == 4) {

@@ -2,6 +2,7 @@
 .idea
 
 # default eclips dir
+bin
 .settings
 
 # eclips file

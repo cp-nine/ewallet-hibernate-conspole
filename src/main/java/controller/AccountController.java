@@ -1,12 +1,16 @@
 package controller;
 
+import config.BorderPadding;
+import config.Values;
 import entities.Account;
 import services.IAccount;
 import services.ICustomer;
 import services.impl.AccountImpl;
 import services.impl.CustomerImpl;
 
-public class AccountController {
+import java.util.List;
+
+public class AccountController extends BorderPadding {
 
     private IAccount accn = new AccountImpl();
     private ICustomer cst = new CustomerImpl();

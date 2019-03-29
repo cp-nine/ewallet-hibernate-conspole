@@ -6,8 +6,6 @@ import config.Values;
 import entities.Account;
 import org.hibernate.*;
 
-import java.sql.Statement;
-
 public class DataAccount {
 
     // get session factory connection (replacement DBConnection)
