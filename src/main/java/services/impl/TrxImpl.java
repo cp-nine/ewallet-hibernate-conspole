@@ -11,7 +11,6 @@ public class TrxImpl implements ITrx {
     private static DataTrx dataTrx = new DataTrx();
 
     // get all transaction report by account number
-    @Override
     public List<TrxEntity> getTransReport(Long acn) {
         return dataTrx.getListTrans(acn);
     }

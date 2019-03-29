@@ -14,4 +14,6 @@ public interface IAccount {
     // check is used by another account
     boolean isUsed(String username);
 
+    //check update pin
+    boolean updatePin(String pin, Long accn);
 }

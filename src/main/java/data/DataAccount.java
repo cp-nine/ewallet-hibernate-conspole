@@ -103,4 +103,25 @@ public class DataAccount {
 		return users;
 	}
 
+
+	public boolean updatePin(String pin, Long acn) {
+//		System.out.println(pin +" "+acn);
+		Session sesn = factory.openSession();
+		boolean isUpdated = false;
+		 try {
+
+             Query query = (Query) sesn.createQuery("update Account set password= :password where accountNumber= :accountNumber");
+             query.setParameter("password", pin);
+             query.setParameter("accountNumber", acn);
+			 Transaction trx = sesn.beginTransaction();
+             query.executeUpdate();
+				trx.commit();
+             isUpdated = true;
+         } catch (HibernateException e) {
+             sesn.close();
+             e.printStackTrace();
+         }
+		 return isUpdated;
+	}
+	
 }

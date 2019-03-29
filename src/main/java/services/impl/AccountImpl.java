@@ -46,6 +46,18 @@ public class AccountImpl implements IAccount {
             }
         return isUsed;
     }
+
+	public boolean updatePin(String pin, Long acn) {
+		boolean isUpdate = false;
+		try {
+			if(dataAccount.updatePin(pin, acn)) {
+				isUpdate = true;
+			}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isUpdate;
         
-}
+}}
 

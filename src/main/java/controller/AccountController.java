@@ -56,8 +56,17 @@ public class AccountController extends BorderPadding {
 		        System.out.println("============================================");
 		    }
 
+	public void updatePin(String pin, Long acn) {
+		if (accn.updatePin(pin, acn)){
+            System.out.println("Update pin success");
+        } else {
+            System.out.println("Update pin failed");
+        }
 		
 	}
+
+		
+	} 
 
 
 
