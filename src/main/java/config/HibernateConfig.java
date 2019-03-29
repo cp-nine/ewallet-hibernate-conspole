@@ -31,6 +31,7 @@ public class HibernateConfig {
                 config.addAnnotatedClass(TrxEntity.class);
                 config.addAnnotatedClass(Wallet.class);
                 config.addAnnotatedClass(WalletAccount.class);
+                config.addAnnotatedClass(TrxEntity.class);
 
                 serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
                 factory = config.buildSessionFactory(serviceRegistry);

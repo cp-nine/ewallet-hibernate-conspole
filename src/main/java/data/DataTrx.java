@@ -2,10 +2,7 @@ package data;
 
 import config.HibernateConfig;
 import entities.TrxEntity;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +30,26 @@ public class DataTrx {
             sesn.close();
         }
         return trxEntities;
+
+    }
+
+    public boolean transfer(TrxEntity trxEntity){
+        Session sesn = factory.openSession();
+        boolean isAdded = false;
+        try {
+            Transaction trx = sesn.beginTransaction();
+            sesn.save(trxEntity);
+            trx.commit();
+            isAdded = true;
+        } catch(Exception sqlException) {
+            if(sesn.getTransaction()!=null) {
+                sesn.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return isAdded;
     }
 
 }

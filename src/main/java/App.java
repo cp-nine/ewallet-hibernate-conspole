@@ -2,6 +2,7 @@ import config.Values;
 import controller.*;
 import entities.Account;
 import entities.Customer;
+import entities.TrxEntity;
 import entities.Wallet;
 
 import java.io.BufferedReader;
@@ -351,7 +352,7 @@ public class App {
                 } else {
                     int menu = Integer.parseInt(valMenu);
                     if (menu == 1) {
-//                        transferByAccount();
+                        transferByAccount();
                     } else if (menu == 2) {
 //                        tarikTunai();
                     } else if (menu == 3) {
@@ -420,7 +421,44 @@ public class App {
         }
     }
 
+    static void transferByAccount() {
+        try {
+            System.out.println("E-Wallet Transfer By Account");
+            System.out.print("Enter the destination account number : ");
+            String valAcn = input.readLine().trim();
+            if (!Values.isNumeric(valAcn)) {
+                System.out.println("Please input number");
+            } else {
+                Long acnt = Long.parseLong(valAcn);
+                System.out.print("Input nominal : ");
+                String valNtop = input.readLine().trim();
+                if (!Values.isNumeric(valNtop)) {
+                    System.out.println("Please input number");
+                } else {
+                    Long ntop = Long.parseLong(valNtop);
+                    Integer lastBalance = ac.getLastBalance(listAccount.get(0).getAccountNumber());
+                    if (lastBalance == 0 || lastBalance < 5000 || lastBalance < ntop) {
+                        System.out.println("Your balance is not enough");
+                    } else {
+                        if (ntop < 1000) {
+                            System.out.println("Minimum transfer is 1000");
+                        } else {
 
+                            TrxEntity trxEntity = new TrxEntity();
+                            trxEntity.setAcnDebet(acnt);
+                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                            trxEntity.setAmount(ntop);
+                            trxEntity.setTrxType(transfer);
+
+                            wac.transfer(trxEntity);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

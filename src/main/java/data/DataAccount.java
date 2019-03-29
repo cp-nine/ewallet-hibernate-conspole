@@ -101,4 +101,52 @@ public class DataAccount {
         return lastValue;
     }
 
+
+    public boolean updateSaldoPlus(Long acn, Long saldo){
+        Session sesn = factory.openSession();
+        boolean isSaved = false;
+        try {
+            Long lastBalance = getLastBalance(acn);
+            Transaction trx = sesn.beginTransaction();
+            Query query = (Query) sesn.createQuery("UPDATE Account SET balance= :blc Where account_number= :acn");
+            query.setParameter("blc", lastBalance+saldo);
+            query.setParameter("acn", acn);
+            query.executeUpdate();
+            trx.commit();
+            isSaved = true;
+        } catch (Exception sqlException) {
+            if (sesn.getTransaction() != null) {
+                sesn.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return isSaved;
+    }
+
+    public boolean updateSaldoMinus(Long acn, Long saldo){
+        Session sesn = factory.openSession();
+        boolean isSaved = false;
+        try {
+            Long lastBalance = getLastBalance(acn);
+            Transaction trx = sesn.beginTransaction();
+            Query query = (Query) sesn.createQuery("UPDATE Account SET balance= :blc Where account_number= :acn");
+            query.setParameter("blc", lastBalance-saldo);
+            query.setParameter("acn", acn);
+            query.executeUpdate();
+            trx.commit();
+            isSaved = true;
+        } catch (Exception sqlException) {
+            if (sesn.getTransaction() != null) {
+                sesn.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return isSaved;
+    }
+
+
 }
