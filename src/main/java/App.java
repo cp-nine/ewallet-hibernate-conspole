@@ -178,7 +178,7 @@ public class App {
 	static void login() {
 		try {
 			System.out.println("===== Login ======");
-			System.out.print("CIF : ");
+			System.out.print("Username : ");
 			String username = input.readLine();
 			System.out.print("PIN : ");
 			String password = input.readLine();

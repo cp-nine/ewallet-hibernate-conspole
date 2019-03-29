@@ -34,13 +34,13 @@ public class DataAccount {
     }
 
 
-    public Account login(String cif, String password) {
+    public Account login(String username, String password) {
         {
             Session sesn = factory.openSession();
             Account users = new Account();
             try {
-                Query query = (Query) sesn.createQuery("From Account Where cif.cif=:cif and password=:password");
-                query.setParameter("cif", cif);
+                Query query = (Query) sesn.createQuery("From Account Where username.username=:username and password=:password");
+                query.setParameter("username", username);
                 query.setParameter("password", password);
                 users = (Account) query.uniqueResult();
             } catch (HibernateException e) {

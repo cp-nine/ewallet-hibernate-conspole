@@ -21,6 +21,8 @@ public class Account {
     private Date open_date;
     @Column(name = "balance")
     private Long balance;
+    @Column(name="username")
+    private String username;
     @Column(name = "password")
     private String pasword;
 
