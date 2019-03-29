@@ -35,4 +35,13 @@ public class AccountImpl implements IAccount {
         return logAccount;
 
     }
+
+    @Override
+    public boolean isUsed(String username) {
+        boolean isUsed = false;
+            if (dataAccount.getByUsername(username)){
+                isUsed = true;
+            }
+        return isUsed;
+    }
 }

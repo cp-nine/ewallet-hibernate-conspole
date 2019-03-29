@@ -136,34 +136,45 @@ public class App {
                 if (!Values.validLength(cif, 8, 8)) {
                     System.out.println("CIF must be 8 character can not empty!!");
                 } else {
-                    System.out.print("PIN          : ");
-                    String password = input.readLine().trim();
-                    if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
-                        System.out.println("Pin must be six number");
+                    System.out.print("Username      : ");
+                    String username = input.readLine().trim();
+                    if (username.length() < 1){
+                        System.out.println("Username cannot empty");
                     } else {
-                        System.out.print("Confirm PIN      : ");
-                        String password2 = input.readLine().trim();
-                        if (!password2.matches(password)) {
-                            System.out.println("PIN doesn't match");
+                        if (ac.isUsed(username)) {
+                            System.out.println("Username is used");
                         } else {
-                            System.out.print("Balance        : ");
-                            String tabungan = input.readLine().trim();
-                            if (!Values.isNumeric(tabungan) || Long.valueOf(tabungan) < 50000) {
-                                System.out.println("Please enter valid value!, Minimum balance Rp.50.000");
+                            System.out.print("PIN          : ");
+                            String password = input.readLine().trim();
+                            if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
+                                System.out.println("Pin must be six number");
                             } else {
-                                Customer cs = cc.getNameCif(cif);
-                                if (cs.equals(null)) {
-                                    System.out.println("Customer not found");
+                                System.out.print("Confirm PIN      : ");
+                                String password2 = input.readLine().trim();
+                                if (!password2.matches(password)) {
+                                    System.out.println("PIN doesn't match");
                                 } else {
-                                    cs.getCif();
-                                    Account newAccount = new Account();
-                                    newAccount.setAccount_name(cs.getFname() + " " + cs.getLname());
-                                    newAccount.setPasword(password);
-                                    newAccount.setBalance(Long.valueOf(tabungan));
-                                    newAccount.setCif(cs);
+                                    System.out.print("Balance        : ");
+                                    String tabungan = input.readLine().trim();
+                                    if (!Values.isNumeric(tabungan) || Long.valueOf(tabungan) < 50000) {
+                                        System.out.println("Please enter valid value!, Minimum balance Rp.50.000");
+                                    } else {
+                                        Customer cs = cc.getNameCif(cif);
+                                        if (cs.equals(null)) {
+                                            System.out.println("Customer not found");
+                                        } else {
+                                            cs.getCif();
+                                            Account newAccount = new Account();
+                                            newAccount.setAccount_name(cs.getFname() + " " + cs.getLname());
+                                            newAccount.setUsername(username);
+                                            newAccount.setPasword(password);
+                                            newAccount.setBalance(Long.valueOf(tabungan));
+                                            newAccount.setCif(cs);
 
-                                    ac.createAccount(newAccount);
-                                    kembali2 = true;
+                                            ac.createAccount(newAccount);
+                                            kembali2 = true;
+                                        }
+                                    }
                                 }
                             }
                         }

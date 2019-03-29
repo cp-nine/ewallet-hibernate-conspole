@@ -33,7 +33,6 @@ public class DataAccount {
 
 
     public Account login(String cif, String password) {
-        {
             Session sesn = factory.openSession();
             Account users = new Account();
             try {
@@ -42,11 +41,29 @@ public class DataAccount {
                 query.setParameter("password", password);
                 users = (Account) query.uniqueResult();
             } catch (HibernateException e) {
-                //        sesn.close();
+                sesn.close();
                 e.printStackTrace();
             }
             return users;
+    }
+
+
+    public boolean getByUsername(String username) {
+        Session sesn = factory.openSession();
+
+        boolean account = false;
+        try {
+            Query query = sesn.createQuery("From Account Where username = :username");
+            query.setParameter("username", username);
+            int size = query.list().size();
+            if (size > 0){
+                account = true;
+            }
+        } catch (HibernateException e) {
+            sesn.close();
+            e.printStackTrace();
         }
+        return account;
     }
 
 

@@ -26,6 +26,15 @@ public class AccountController extends BorderPadding {
 
     }
 
+    // check username is used by another account
+    public boolean isUsed(String username){
+        boolean isused = false;
+        if (accn.isUsed(username)){
+            isused = true;
+        }
+        return isused;
+    }
+
     public Account login(String username, String password) {
         Account isLogin = null;
 
