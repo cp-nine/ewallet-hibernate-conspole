@@ -1,9 +1,0 @@
-# default intellij dir
-.idea
-
-# default eclips dir
-.settings
-
-# eclips file
-.classpath
-.project

@@ -5,7 +5,7 @@
 *.iml
 
 # default eclips dir
-bin/
+bin
 .settings
 
 # eclips file
@@ -13,4 +13,4 @@ bin/
 *.project
 
 # directory
-target/
+target
