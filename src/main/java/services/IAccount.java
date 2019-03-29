@@ -10,4 +10,7 @@ public interface IAccount {
     // login account
     Account login(String cif, String password);
 
+    // check is used by another account
+    boolean isUsed(String username);
+
 }

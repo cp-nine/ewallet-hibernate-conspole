@@ -6,8 +6,6 @@ import config.Values;
 import entities.Account;
 import org.hibernate.*;
 
-import java.sql.Statement;
-
 public class DataAccount {
 
     // get session factory connection (replacement DBConnection)
@@ -34,21 +32,39 @@ public class DataAccount {
     }
 
 
-    public Account login(String cif, String password) {
-        {
+
+    public Account login(String username, String password) {
             Session sesn = factory.openSession();
             Account users = new Account();
             try {
-                Query query = (Query) sesn.createQuery("From Account Where cif.cif=:cif and password=:password");
-                query.setParameter("cif", cif);
+                Query query = (Query) sesn.createQuery("From Account Where username.username=:username and password=:password");
+                query.setParameter("username", username);
                 query.setParameter("password", password);
                 users = (Account) query.uniqueResult();
             } catch (HibernateException e) {
-                //        sesn.close();
+                sesn.close();
                 e.printStackTrace();
             }
             return users;
+    }
+
+
+    public boolean getByUsername(String username) {
+        Session sesn = factory.openSession();
+
+        boolean account = false;
+        try {
+            Query query = sesn.createQuery("From Account Where username = :username");
+            query.setParameter("username", username);
+            int size = query.list().size();
+            if (size > 0){
+                account = true;
+            }
+        } catch (HibernateException e) {
+            sesn.close();
+            e.printStackTrace();
         }
+        return account;
     }
 
 

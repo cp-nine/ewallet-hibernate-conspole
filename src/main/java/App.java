@@ -1,6 +1,7 @@
 import config.Values;
 import controller.AccountController;
 import controller.CustomerController;
+import controller.TransactionController;
 import entities.Account;
 import entities.Customer;
 
@@ -11,13 +12,12 @@ import java.util.List;
 
 public class App {
 
-
     static InputStreamReader inputStream = new InputStreamReader(System.in);
     static BufferedReader input = new BufferedReader(inputStream);
+    static TransactionController trx = new TransactionController();
     static CustomerController cc = new CustomerController();
     static AccountController ac = new AccountController();
-    //    static WalletAccountController wac = new WalletAccountController();
-//    static WalletController wc = new WalletController();
+    //    static WalletController wc = new WalletController();
     static List<Account> listAccount = new ArrayList<Account>();
     static Integer idWallet = 0;
     static String topUp = "T0001";
@@ -53,7 +53,6 @@ public class App {
                         login();
                     } else if (menu == 4) {
 //                            new ThreadUpload("Upload1").start();
-
                     } else {
                         System.out.println("Wrong input");
                     }
@@ -134,34 +133,45 @@ public class App {
                 if (!Values.validLength(cif, 8, 8)) {
                     System.out.println("CIF must be 8 character can not empty!!");
                 } else {
-                    System.out.print("PIN          : ");
-                    String password = input.readLine().trim();
-                    if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
-                        System.out.println("Pin must be six number");
+                    System.out.print("Username      : ");
+                    String username = input.readLine().trim();
+                    if (username.length() < 1) {
+                        System.out.println("Username cannot empty");
                     } else {
-                        System.out.print("Confirm PIN      : ");
-                        String password2 = input.readLine().trim();
-                        if (!password2.matches(password)) {
-                            System.out.println("PIN doesn't match");
+                        if (ac.isUsed(username)) {
+                            System.out.println("Username is used");
                         } else {
-                            System.out.print("Balance        : ");
-                            String tabungan = input.readLine().trim();
-                            if (!Values.isNumeric(tabungan) || Long.valueOf(tabungan) < 50000) {
-                                System.out.println("Please enter valid value!, Minimum balance Rp.50.000");
+                            System.out.print("PIN          : ");
+                            String password = input.readLine().trim();
+                            if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
+                                System.out.println("Pin must be six number");
                             } else {
-                                Customer cs = cc.getNameCif(cif);
-                                if (cs.equals(null)) {
-                                    System.out.println("Customer not found");
+                                System.out.print("Confirm PIN      : ");
+                                String password2 = input.readLine().trim();
+                                if (!password2.matches(password)) {
+                                    System.out.println("PIN doesn't match");
                                 } else {
-                                    cs.getCif();
-                                    Account newAccount = new Account();
-                                    newAccount.setAccount_name(cs.getFname() + " " + cs.getLname());
-                                    newAccount.setPasword(password);
-                                    newAccount.setBalance(Long.valueOf(tabungan));
-                                    newAccount.setCif(cs);
+                                    System.out.print("Balance        : ");
+                                    String tabungan = input.readLine().trim();
+                                    if (!Values.isNumeric(tabungan) || Long.valueOf(tabungan) < 50000) {
+                                        System.out.println("Please enter valid value!, Minimum balance Rp.50.000");
+                                    } else {
+                                        Customer cs = cc.getNameCif(cif);
+                                        if (cs.equals(null)) {
+                                            System.out.println("Customer not found");
+                                        } else {
+                                            cs.getCif();
+                                            Account newAccount = new Account();
+                                            newAccount.setAccount_name(cs.getFname() + " " + cs.getLname());
+                                            newAccount.setUsername(username);
+                                            newAccount.setPasword(password);
+                                            newAccount.setBalance(Long.valueOf(tabungan));
+                                            newAccount.setCif(cs);
 
-                                    ac.createAccount(newAccount);
-                                    kembali2 = true;
+                                            ac.createAccount(newAccount);
+                                            kembali2 = true;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -179,7 +189,7 @@ public class App {
     static void login() {
         try {
             System.out.println("===== Login ======");
-            System.out.print("CIF : ");
+            System.out.print("Username : ");
             String username = input.readLine();
             System.out.print("PIN : ");
             String password = input.readLine();
@@ -204,8 +214,7 @@ public class App {
         boolean kembali = false;
         try {
             do {
-//                Long acNumber = listAccount.get(0).getAccountNumber()
-
+                Long acNumber = listAccount.get(0).getAccount_number();
                 System.out.println();
 //                System.out.println("Welcome " + listAccount.get(0).getAccountName());
 
@@ -228,7 +237,7 @@ public class App {
                     if (menu == 1) {
 //                        ac.getProfileAccount(listAccount.get(0).getCif());
                     } else if (menu == 2) {
-//                        ac.transactionReport(acNumber);
+                        trx.transactionReport(acNumber);
                     } else if (menu == 3) {
 //                        updatePin();
                     } else if (menu == 4) {
@@ -273,7 +282,7 @@ public class App {
 //                        createWalletAccount();
                     } else if (menu == 6) {
 //                        if (wac.isAvailableWallet(acNumber) <= 0) {
-                            if (0 <= 0) {
+                        if (0 <= 0) {
                             System.out.println("You have not wallet yet.");
                         } else {
                             System.out.println("Are you sure to disactivate your wallet ?");
@@ -304,10 +313,5 @@ public class App {
         }
 
     }
-
-
-
-
-
 
 }

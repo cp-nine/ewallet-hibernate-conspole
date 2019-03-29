@@ -2,6 +2,7 @@ package config;
 
 import entities.Account;
 import entities.Customer;
+import entities.TrxEntity;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -29,6 +30,7 @@ public class HibernateConfig {
                 // add annotatedClass here
                 config.addAnnotatedClass(Customer.class);
                 config.addAnnotatedClass(Account.class);
+                config.addAnnotatedClass(TrxEntity.class);
 
                 serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
                 factory = config.buildSessionFactory(serviceRegistry);

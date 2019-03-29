@@ -21,10 +21,10 @@ public class AccountImpl implements IAccount {
         return isAdded;
     }
 
-    public Account login(String cif, String password) {
+    public Account login(String username, String password) {
         Account logAccount = null;
         try {
-            Account account = dataAccount.login(cif, password);
+            Account account = dataAccount.login(username, password);
             if( account != null){
                 logAccount = account;
             }
@@ -34,5 +34,14 @@ public class AccountImpl implements IAccount {
         }
         return logAccount;
 
+    }
+
+    @Override
+    public boolean isUsed(String username) {
+        boolean isUsed = false;
+            if (dataAccount.getByUsername(username)){
+                isUsed = true;
+            }
+        return isUsed;
     }
 }

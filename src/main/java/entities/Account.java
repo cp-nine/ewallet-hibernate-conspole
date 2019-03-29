@@ -21,6 +21,8 @@ public class Account {
     private Date open_date;
     @Column(name = "balance")
     private Long balance;
+    @Column(name="username")
+    private String username;
     @Column(name = "password")
     private String pasword;
 
@@ -62,6 +64,14 @@ public class Account {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPasword() {
