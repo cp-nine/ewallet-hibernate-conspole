@@ -12,14 +12,12 @@ import java.util.List;
 
 public class App {
 
-
     static InputStreamReader inputStream = new InputStreamReader(System.in);
     static BufferedReader input = new BufferedReader(inputStream);
     static TransactionController trx = new TransactionController();
     static CustomerController cc = new CustomerController();
     static AccountController ac = new AccountController();
-    //    static WalletAccountController wac = new WalletAccountController();
-//    static WalletController wc = new WalletController();
+    //    static WalletController wc = new WalletController();
     static List<Account> listAccount = new ArrayList<Account>();
     static Integer idWallet = 0;
     static String topUp = "T0001";
@@ -55,7 +53,6 @@ public class App {
                         login();
                     } else if (menu == 4) {
 //                            new ThreadUpload("Upload1").start();
-
                     } else {
                         System.out.println("Wrong input");
                     }
@@ -138,7 +135,7 @@ public class App {
                 } else {
                     System.out.print("Username      : ");
                     String username = input.readLine().trim();
-                    if (username.length() < 1){
+                    if (username.length() < 1) {
                         System.out.println("Username cannot empty");
                     } else {
                         if (ac.isUsed(username)) {
@@ -192,7 +189,7 @@ public class App {
     static void login() {
         try {
             System.out.println("===== Login ======");
-            System.out.print("CIF : ");
+            System.out.print("Username : ");
             String username = input.readLine();
             System.out.print("PIN : ");
             String password = input.readLine();
@@ -218,7 +215,6 @@ public class App {
         try {
             do {
                 Long acNumber = listAccount.get(0).getAccount_number();
-
                 System.out.println();
 //                System.out.println("Welcome " + listAccount.get(0).getAccountName());
 
@@ -286,7 +282,7 @@ public class App {
 //                        createWalletAccount();
                     } else if (menu == 6) {
 //                        if (wac.isAvailableWallet(acNumber) <= 0) {
-                            if (0 <= 0) {
+                        if (0 <= 0) {
                             System.out.println("You have not wallet yet.");
                         } else {
                             System.out.println("Are you sure to disactivate your wallet ?");
@@ -317,10 +313,5 @@ public class App {
         }
 
     }
-
-
-
-
-
 
 }

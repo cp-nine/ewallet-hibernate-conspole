@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <query name="GET_ALL_CUSTOMER">from Customer</query>
+
+    <query name="HQL_GET_CUSTOMER_BY_CIF">
+        <![CDATA[from Customer where cif = :cif]]>
+    </query>
+
+</hibernate-mapping>
