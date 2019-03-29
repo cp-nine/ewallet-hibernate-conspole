@@ -1,6 +1,8 @@
 package controller;
 
+import config.Values;
 import entities.Account;
+import entities.Customer;
 import services.IAccount;
 import services.ICustomer;
 import services.impl.AccountImpl;
@@ -9,8 +11,7 @@ import services.impl.CustomerImpl;
 public class AccountController {
 
     private IAccount accn = new AccountImpl();
-    private ICustomer cst = new CustomerImpl();
-
+    private ICustomer da = new CustomerImpl();
     // create new account
     public void createAccount(Account account) {
 
@@ -33,5 +34,18 @@ public class AccountController {
         return isLogin;
     }
 
+	public void getProfileAccount(String cif) {
+		Account acn = accn.getAccount(cif);
 
-}
+		        System.out.println("=============== Profiles ===================");
+		        System.out.println("Name           : " + acn.getAccountname());
+		        System.out.println("Account Number : " + Values.balance(String.valueOf(acn.getAccountNumber())));
+		        System.out.println("Balance        : " + Values.rupiah(acn.getBalance()));
+		        System.out.println("============================================");
+		    }
+
+		
+	}
+
+
+

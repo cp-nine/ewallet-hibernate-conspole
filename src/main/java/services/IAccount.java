@@ -9,5 +9,6 @@ public interface IAccount {
 
     // login account
     Account login(String cif, String password);
+    Account getAccount(String cif);
 
 }

@@ -35,4 +35,9 @@ public class AccountImpl implements IAccount {
         return logAccount;
 
     }
+    public Account getAccount(String cif) {
+        return dataAccount.getCustomer(cif);
+    }
+
 }
+

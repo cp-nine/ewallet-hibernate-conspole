@@ -14,7 +14,7 @@ public class App {
 	static InputStreamReader inputStream = new InputStreamReader(System.in);
 	static BufferedReader input = new BufferedReader(inputStream);
 	static CustomerController cc = new CustomerController();
-	static AccountController ac = new AccountController();
+	static AccountController ac  = new AccountController();
 	// static WalletAccountController wac = new WalletAccountController();
 //    static WalletController wc = new WalletController();
 	static List<Account> listAccount = new ArrayList<Account>();
@@ -153,7 +153,7 @@ public class App {
 								} else {
 									cs.getCif();
 									Account newAccount = new Account();
-									newAccount.setAccount_name(cs.getFname() + " " + cs.getLname());
+									newAccount.setAccountname(cs.getFname() + " " + cs.getLname());
 									newAccount.setPasword(password);
 									newAccount.setBalance(Long.valueOf(tabungan));
 									newAccount.setCif(cs);
@@ -204,10 +204,10 @@ public class App {
 		boolean kembali = false;
 		try {
 			do {
-//                Long acNumber = listAccount.get(0).getAccountNumber()
+                Long acNumber = listAccount.get(0).getAccountNumber();
 
 				System.out.println();
-//                System.out.println("Welcome " + listAccount.get(0).getAccountName());
+                System.out.println("Welcome " + listAccount.get(0).getAccountname());
 
 				System.out.println("========= Main Menu =========");
 				System.out.println("1. Profile details");
@@ -226,7 +226,7 @@ public class App {
 				} else {
 					int menu = Integer.parseInt(valMenu);
 					if (menu == 1) {
-//                        ac.getProfileAccount(listAccount.get(0).getCif());
+                        ac.getProfileAccount(listAccount.get(0).getCif().getCif());
 					} else if (menu == 2) {
 //                        ac.transactionReport(acNumber);
 					} else if (menu == 3) {

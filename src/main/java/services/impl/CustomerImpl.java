@@ -1,6 +1,7 @@
 package services.impl;
 
 import data.DataCustomer;
+import entities.Account;
 import entities.Customer;
 import services.ICustomer;
 
@@ -34,5 +35,10 @@ public class CustomerImpl implements ICustomer {
         return customer;
 
     }
+
+	public Account getAccount(String cif) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
