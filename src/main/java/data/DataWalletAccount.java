@@ -1,6 +1,8 @@
 package data;
 
+import config.Code;
 import config.HibernateConfig;
+import config.Values;
 import entities.Wallet;
 import entities.WalletAccount;
 import org.hibernate.*;
@@ -75,7 +77,7 @@ public class DataWalletAccount {
         Session sesn = factory.openSession();
         try {
             // try to execute query and insert result to users list
-            Query query = sesn.createQuery("SELECT wallet_id FROM WalletAccount WHERE account_number= :acn");
+            Query query = sesn.createQuery("SELECT wallet_id FROM WalletAccount WHERE account_number= :acn AND status='active'");
             query.setParameter("acn", acn);
             wallets = query.list();
         } catch (HibernateException e){
@@ -86,4 +88,42 @@ public class DataWalletAccount {
         return wallets;
     }
 
+    public int isRegistered(Long accountNumber, Integer wid) {
+
+        Session sesn = factory.openSession();
+        int lastValue = 0;
+        try {
+            Query query = sesn.createQuery("SELECT COUNT(wallet_id)+1 FROM WalletAccount");
+            Long last = (Long) query.uniqueResult();
+
+            if (last > 0){
+                lastValue = Integer.parseInt(last.toString());
+            }
+
+        } finally {
+            sesn.close();
+        }
+        return lastValue;
+
+    }
+
+    public boolean unreg(Long nr, Integer wid) {
+        Session sesn = factory.openSession();
+        boolean lastValue = false;
+        try {
+            Transaction trx = sesn.beginTransaction();
+            Query query = sesn.createQuery("UPDATE WalletAccount SET status= :sts WHERE account_number= :acn AND wallet_id.wallet_id= :wid");
+            query.setParameter("sts", "nonactive");
+            query.setParameter("acn", nr);
+            query.setParameter("wid", wid);
+            if (query.executeUpdate() > 0){
+                lastValue = true;
+            }
+            trx.commit();
+
+        } finally {
+            sesn.close();
+        }
+        return lastValue;
+    }
 }

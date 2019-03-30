@@ -16,11 +16,11 @@ public class WalletAccountController {
 
     public boolean isAvailableWallet(Long an) {
 
-            if (iwc.isAvailableWallet(an)) {
-                return true;
-            } else {
-                return false;
-            }
+        if (iwc.isAvailableWallet(an)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void transfer(TrxEntity trxEntity) {
@@ -65,5 +65,27 @@ public class WalletAccountController {
 
     public void addWalletAccount(String type, String description, Long accountNumber) {
         iwc.addWalletAccount(type, description, accountNumber);
+    }
+
+    public boolean isRegister(Long an, Integer wid) {
+        boolean isregister = false;
+
+        try {
+            if (iwc.isRegister(an, wid)) {
+                isregister = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isregister;
+    }
+
+    public void unreg(Long nr, Integer wid) {
+        if(!iwc.unreg(nr, wid)){
+            System.out.println("Failled to unreg");
+        } else {
+            System.out.println("Un reg success");
+        }
     }
 }

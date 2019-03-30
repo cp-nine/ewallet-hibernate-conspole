@@ -215,8 +215,6 @@ public class App {
         try {
             do {
                 Long acNumber = listAccount.get(0).getAccountNumber();
-                System.out.println();
-//                System.out.println("Welcome " + listAccount.get(0).getAccountName());
 
                 System.out.println("========= Main Menu =========");
                 System.out.println("1. Profile details");
@@ -289,11 +287,10 @@ public class App {
                                 System.out.println("Please input valid id");
                             } else {
                                 Integer walletid = Integer.parseInt(valWal);
-//                                if (wac.isRegister(acNumber, walletid) < 1) {
-                                if (0 <= 0) {
+                                if (!wac.isRegister(acNumber, walletid)) {
                                     System.out.println("Wallet not wound..");
                                 } else {
-//                                    wac.unreg(acNumber, walletid);
+                                    wac.unreg(acNumber, walletid);
                                 }
                             }
                         }

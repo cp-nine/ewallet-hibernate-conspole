@@ -30,6 +30,33 @@ public class WalletAccountImpl implements IWalletAccount {
     }
 
     @Override
+    public boolean isRegister(Long accountNumber, Integer wid) {
+        boolean walletAccount = false;
+
+        try {
+            int getWa = dataWalletAccount.isRegistered(accountNumber, wid);
+            if (getWa > 0) {
+                walletAccount = true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return walletAccount;
+    }
+
+    @Override
+    public boolean unreg(Long nr, Integer wid) {
+       if(!dataWalletAccount.unreg(nr, wid)){
+           return false;
+       } else {
+           return true;
+       }
+    }
+
+
+    @Override
     public Long getAcnNumber(Integer id) {
         return dataWalletAccount.getAcnNumber(id);
     }
@@ -61,6 +88,8 @@ public class WalletAccountImpl implements IWalletAccount {
         }
         return isAdded;
     }
+
+
 
 
 }
