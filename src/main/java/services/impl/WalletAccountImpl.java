@@ -73,6 +73,7 @@ public class WalletAccountImpl implements IWalletAccount {
             Integer walletId = Integer.parseInt(dataWallet.getCode());
             Wallet wallet = new Wallet();
             wallet.setWallet_id(walletId);
+            wallet.setActiveBalance(Long.parseLong(String.valueOf(0)));
             wallet.setDescription(description);
             wallet.setType(type);
 

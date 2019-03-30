@@ -19,7 +19,7 @@ public class Wallet {
     private String kode_toko;
     @Column(name = "type")
     private String type;
-    @Column(name = "active_balance", columnDefinition = "0")
+    @Column(name = "active_balance")
     private Long activeBalance;
 
     @CreationTimestamp

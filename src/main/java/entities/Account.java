@@ -50,44 +50,47 @@ public class Account {
         this.accountName = accountName;
     }
 
-    public Date getOpen_date() {
-        return open_date;
-    }
+	public Date getOpen_date() {
+		return open_date;
+	}
 
-    public void setOpen_date(Date open_date) {
-        this.open_date = open_date;
-    }
+	public void setOpen_date(Date open_date) {
+		this.open_date = open_date;
+	}
 
-    public Long getBalance() {
-        return balance;
-    }
+	public Long getBalance() {
+		return balance;
+	}
 
-    public void setBalance(Long balance) {
-        this.balance = balance;
-    }
+	public void setBalance(Long balance) {
+		this.balance = balance;
+	}
+
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+ 
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getPasword() {
-        return pasword;
-    }
+	public String getPasword() {
+		return pasword;
+	}
 
-    public void setPasword(String pasword) {
-        this.pasword = pasword;
-    }
+	public void setPasword(String pasword) {
+		this.pasword = pasword;
+	}
 
-    public Customer getCif() {
-        return cif;
-    }
+	public Customer getCif() {
+		return cif;
+	}
 
-    public void setCif(Customer cif) {
-        this.cif = cif;
-    }
+	public void setCif(Customer cif) {
+		this.cif = cif;
+	}
 
+    
 }

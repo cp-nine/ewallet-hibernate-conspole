@@ -25,17 +25,17 @@ public class WalletAccountController {
 
     public void transfer(TrxEntity trxEntity) {
         if (!iTrx.transfer(trxEntity)){
-            System.out.println("Transfer success");
-        } else {
             System.out.println("Transfer failed");
+        } else {
+            System.out.println("Transfer success");
         }
     }
 
     public void tariktunai(TrxEntity trxEntity) {
         if (!iTrx.tariktunai(trxEntity)){
-            System.out.println("Cash Withdrawal success");
-        } else {
             System.out.println("Cash Withdrawal failed");
+        } else {
+            System.out.println("Cash Withdrawal success");
         }
     }
 
@@ -64,7 +64,11 @@ public class WalletAccountController {
     }
 
     public void addWalletAccount(String type, String description, Long accountNumber) {
-        iwc.addWalletAccount(type, description, accountNumber);
+        if (!iwc.addWalletAccount(type, description, accountNumber)){
+            System.out.println("Failled to create e-wallet");
+        } else {
+            System.out.println("E wallet succes created");
+        }
     }
 
     public boolean isRegister(Long an, Integer wid) {

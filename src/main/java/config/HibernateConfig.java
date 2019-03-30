@@ -7,8 +7,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 /*
-* Hibernate Configuration and Replacement for mysql connection.
-*/
+ * Hibernate Configuration and Replacement for mysql connection.
+ */
 
 public class HibernateConfig {
 
@@ -23,7 +23,7 @@ public class HibernateConfig {
                 // config.configure();
                 config.configure("hibernate.cfg.xml");
                 // named query by xml
-                config.addResource("named-queries.hbm.xml");
+//                config.addResource("named-queries.hbm.xml");
 
                 // add annotatedClass here
                 config.addAnnotatedClass(Customer.class);

@@ -3,6 +3,7 @@ package controller;
 import config.BorderPadding;
 import config.Values;
 import entities.Account;
+import entities.Customer;
 import services.IAccount;
 import services.ICustomer;
 import services.impl.AccountImpl;
@@ -13,8 +14,7 @@ import java.util.List;
 public class AccountController extends BorderPadding {
 
     private IAccount accn = new AccountImpl();
-    private ICustomer cst = new CustomerImpl();
-
+    private ICustomer da = new CustomerImpl();
     // create new account
     public void createAccount(Account account) {
 
@@ -22,6 +22,25 @@ public class AccountController extends BorderPadding {
             System.out.println("New account has been created.");
         } else {
             System.out.println("Failed to create new account");
+        }
+
+    }
+
+    public void getProfileAccount(String cif) {
+        Account acn = accn.getAccount(cif);
+
+        System.out.println("=============== Profiles ===================");
+        System.out.println("Name           : " + acn.getAccountName());
+        System.out.println("Account Number : " + Values.balance(String.valueOf(acn.getAccountNumber())));
+        System.out.println("Balance        : " + Values.rupiah(acn.getBalance()));
+        System.out.println("============================================");
+    }
+
+    public void updatePin(String pin, Long acn) {
+        if (accn.updatePin(pin, acn)){
+            System.out.println("Update pin success");
+        } else {
+            System.out.println("Update pin failed");
         }
 
     }
@@ -61,3 +80,4 @@ public class AccountController extends BorderPadding {
         return value;
     }
 }
+

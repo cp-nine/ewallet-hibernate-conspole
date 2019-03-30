@@ -9,10 +9,14 @@ public interface IAccount {
 
     // login account
     Account login(String cif, String password);
+    Account getAccount(String cif);
 
     // check is used by another account
     boolean isUsed(String username);
 
     Long getLastBallance(Long acn);
+
+    //check update pin
+    boolean updatePin(String pin, Long accn);
 
 }

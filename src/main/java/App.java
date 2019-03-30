@@ -233,14 +233,14 @@ public class App {
                 } else {
                     int menu = Integer.parseInt(valMenu);
                     if (menu == 1) {
-//                        ac.getProfileAccount(listAccount.get(0).getCif());
+                        ac.getProfileAccount(listAccount.get(0).getCif().getCif());
                     } else if (menu == 2) {
                         trx.transactionReport(acNumber);
                     } else if (menu == 3) {
-//                        updatePin();
+                        updatePin();
                     } else if (menu == 4) {
                         if (wac.isAvailableWallet(acNumber)) {
-                            System.out.println();
+                            // get wallet list
                             wc.getAllWallet(acNumber);
 
                             System.out.print("Select wallet: ");
@@ -347,16 +347,16 @@ public class App {
 //                            System.out.println("Please insert number");
 //                        } else {
 //                            Long accountNumber = Long.parseLong(valAccount);
-                            System.out.print("Description :");
-                            String description = input.readLine();
-                            System.out.print("Insert verification code: ");
-                            String verify = input.readLine();
-                            if (!verify.equals(codever)) {
-                                System.out.println("Verification code doesn't match!!!");
-                            } else {
-                                wac.addWalletAccount(type, description, listAccount.get(0).getAccountNumber());
-                                kembali3 = true;
-                            }
+                        System.out.print("Description :");
+                        String description = input.readLine();
+                        System.out.print("Insert verification code: ");
+                        String verify = input.readLine();
+                        if (!verify.equals(codever)) {
+                            System.out.println("Verification code doesn't match!!!");
+                        } else {
+                            wac.addWalletAccount(type, description, listAccount.get(0).getAccountNumber());
+                            kembali3 = true;
+                        }
 //                        }
                     }
                 }
@@ -368,6 +368,38 @@ public class App {
         }
 
     }
+
+    private static void updatePin() {
+        try {
+            System.out.println("-------------- Update Your PIN ------------");
+            boolean kembali2 = false;
+            do {
+                System.out.print("New PIN          : ");
+                String password = input.readLine().trim();
+                if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
+                    System.out.println("Pin must be six number");
+                } else {
+                    System.out.print("Confirm PIN      : ");
+                    String password2 = input.readLine().trim();
+                    if (!password2.matches(password)) {
+                        System.out.println("PIN doesn't match");
+                    } else {
+                        ac.updatePin(password, listAccount.get(0).getAccountNumber());
+                        kembali2 = true;
+
+                    }
+                }
+
+
+            } while (!kembali2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
     static void wallet(Integer wid) {
         if (wc.getWalletDescType(wid).equals("e-banking")) {
@@ -472,6 +504,7 @@ public class App {
             } while (!kembali2);
 
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Input not valid..");
         }
     }
@@ -758,25 +791,25 @@ public class App {
             if (!Values.isNumeric(kodeToko)) {
                 System.out.println("Input not valid");
             } else {
-            System.out.print("Insert payment nominal : ");
-            String valNtop = input.readLine().trim();
-            if (!Values.isNumeric(valNtop)) {
-                System.out.println("Please input number");
-            } else {
-                Long ntop = Long.parseLong(valNtop);
-                Integer wbal = wc.getLastBalance(idWallet);
-                if (wbal == 0 || wbal < 1000 || wbal < ntop) {
-                    System.out.println("Your balance is not enough");
+                System.out.print("Insert payment nominal : ");
+                String valNtop = input.readLine().trim();
+                if (!Values.isNumeric(valNtop)) {
+                    System.out.println("Please input number");
                 } else {
-                    if (ntop < 1) {
-                        System.out.println("Please input nominal");
+                    Long ntop = Long.parseLong(valNtop);
+                    Integer wbal = wc.getLastBalance(idWallet);
+                    if (wbal == 0 || wbal < 1000 || wbal < ntop) {
+                        System.out.println("Your balance is not enough");
                     } else {
-                        trxEntity.setAmount(ntop);
-                        trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
-                        trxEntity.setTrxType(pay);
-                        wac.transferByWallet(trxEntity, idWallet, Integer.parseInt(kodeToko));
+                        if (ntop < 1) {
+                            System.out.println("Please input nominal");
+                        } else {
+                            trxEntity.setAmount(ntop);
+                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                            trxEntity.setTrxType(pay);
+                            wac.transferByWallet(trxEntity, idWallet, Integer.parseInt(kodeToko));
+                        }
                     }
-                }
                 }
             }
 

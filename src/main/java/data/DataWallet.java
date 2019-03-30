@@ -23,7 +23,7 @@ public class DataWallet {
         Session sesn = factory.openSession();
         try {
             // try to execute query and insert result to users list
-            Query query = sesn.createQuery("FROM WalletAccount WHERE account_number= :acn AND status='active' ORDER BY wa_id DESC");
+            Query query = sesn.createQuery("FROM WalletAccount WHERE account_number= :acn AND status='active' ORDER BY wa_id ASC");
             query.setParameter("acn", acn);
             wallets = query.list();
         } catch (HibernateException e){

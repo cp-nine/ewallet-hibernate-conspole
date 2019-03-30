@@ -25,23 +25,26 @@ public class AccountImpl implements IAccount {
         Account logAccount = null;
         try {
             Account account = dataAccount.login(username, password);
-            if( account != null){
+            if (account != null) {
                 logAccount = account;
             }
 
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return logAccount;
 
     }
 
-    @Override
+    public Account getAccount(String cif) {
+        return dataAccount.getCustomer(cif);
+    }
+
     public boolean isUsed(String username) {
         boolean isUsed = false;
-            if (dataAccount.getByUsername(username)){
-                isUsed = true;
-            }
+        if (dataAccount.getByUsername(username)) {
+            isUsed = true;
+        }
         return isUsed;
     }
 
@@ -51,12 +54,27 @@ public class AccountImpl implements IAccount {
         Long value = null;
         try {
             Long balance = dataAccount.getLastBalance(acn);
-            if (balance != null){
+            if (balance != null) {
                 value = balance;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return value;
     }
+
+    public boolean updatePin(String pin, Long acn) {
+        boolean isUpdate = false;
+        try {
+            if (dataAccount.updatePin(pin, acn)) {
+                isUpdate = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isUpdate;
+
+    }
 }
+
