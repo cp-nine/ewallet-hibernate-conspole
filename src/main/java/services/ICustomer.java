@@ -14,5 +14,7 @@ public interface ICustomer {
 	Account getAccount(String cif);
 
 
+    Customer getCustomer(String cif);
 
+    List<Account> getAccountList(String cif);
 }

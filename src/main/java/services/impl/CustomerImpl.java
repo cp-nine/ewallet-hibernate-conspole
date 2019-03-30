@@ -39,8 +39,33 @@ public class CustomerImpl implements ICustomer {
     }
 
 	public Account getAccount(String cif) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Customer getCustomer(String cif) {
+        return dataCustomer.getCustomer(cif);
+    }
+
+    @Override
+    public List<Account> getAccountList(String cif) {
+        return dataCustomer.getAccountList(cif);
+    }
+
+    public Customer login(String username, String password) {
+        Customer logAccount = null;
+        try {
+            Customer account = dataCustomer.login(username, password);
+            if (account != null) {
+                logAccount = account;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return logAccount;
+
+    }
 
 }
