@@ -38,7 +38,6 @@ public class App {
                     System.out.println("1. New Customer");
                     System.out.println("2. Create Account");
                     System.out.println("3. Customer Login");
-                    System.out.println("4. Upload Customer");
                     System.out.println();
                     System.out.println("=========================");
 
@@ -51,8 +50,6 @@ public class App {
                         createAccount();
                     } else if (menu == 3) {
                         login();
-                    } else if (menu == 4) {
-//                            new ThreadUpload("Upload1").start();
                     } else {
                         System.out.println("Wrong input");
                     }
@@ -470,12 +467,10 @@ public class App {
                 System.out.println();
                 System.out.println("===== E-Wallet Payment =====");
                 System.out.println("1. Top Up");
-                System.out.println("2. Wallet Account");
-                System.out.println("3. Change Wallet Account");
-                System.out.println("4. Transfer");
-                System.out.println("5. Cash Withdrawal");
-                System.out.println("6. Pay Product");
-                System.out.println("7. Back");
+                System.out.println("2. Transfer");
+                System.out.println("3. Cash Withdrawal");
+                System.out.println("4. Pay Product");
+                System.out.println("5. Back");
                 System.out.println("====================");
                 System.out.print("Select menu > ");
                 String valMenu = input.readLine().trim();
@@ -485,18 +480,13 @@ public class App {
                     int menu = Integer.parseInt(valMenu);
                     if (menu == 1) {
                         topUp();
-                    } else if (menu == 2) {
-//                        wac.getWalletAccountList(idWallet);
-                    } else if (menu == 3) {
-//                        updateWalletAccount();
-                        System.out.println("Change Wallet Account");
-                    } else if (menu ==4) {
+                    } else if (menu ==2) {
                         transferByWallet();
-                    } else if (menu == 5) {
+                    } else if (menu == 3) {
                         tarikTunaiWallet();
-                    } else if (menu == 6) {
+                    } else if (menu ==4) {
                         payProduct();
-                    } else if (menu == 7) {
+                    } else if (menu == 5) {
                         kembali2 = true;
                     }
                 }
