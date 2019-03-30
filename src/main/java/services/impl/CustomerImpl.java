@@ -26,10 +26,12 @@ public class CustomerImpl implements ICustomer {
         return isAdded;
     }
 
+    // get all customer
     public List<Customer> getAllCustomer() {
         return dataCustomer.listCustomer();
     }
 
+    // get customer name and cif
     public Customer getCustomerNameAndCif(String cif) {
         Customer customer = dataCustomer.getNameCif(cif);
         return customer;

@@ -5,10 +5,7 @@ import config.HibernateConfig;
 import config.Values;
 import entities.Account;
 import org.hibernate.*;
-import java.sql.Statement;
-import java.util.List;
 
-import javax.security.auth.login.AccountNotFoundException;
 
 public class DataAccount {
 
@@ -35,42 +32,40 @@ public class DataAccount {
 		return isAdded;
 	}
 
-	public Account login(String username, String password) {
-		{
-			Session sesn = factory.openSession();
-			Account users = new Account();
-			try {
-				Query query = (Query) sesn.createQuery("From Account Where username=:username and password=:password");
-				query.setParameter("username", username);
-				query.setParameter("password", password);
-				users = (Account) query.uniqueResult();
-			} catch (HibernateException e) {
-				// sesn.close();
-				e.printStackTrace();
-			}
-			return users;
-		}
-	}
 
-//	public Account getProfileAccount(String accountName, String accountNumber, String balance) {
-//		Session sesn = factory.openSession();
-//		Account users = new Account();
-//		
-//		try {
-//			Query query = (Query) sesn.createQuery("From Account Where accountname= account_name and accousernumber=accountNumber and balance=balance");
-//			query.setParameter("accountname", accountName);
-//			query.setParameter("accountnumber", accountNumber);
-//			query.setParameter("balance", balance);
-//			users = (Account) query.uniqueResult();
-//		} catch (HibernateException e) {
-//			// sesn.close();
-//			e.printStackTrace();
-//		}
-//		return users;
-//
-//	}
+    public Account login(String username, String password) {
+            Session sesn = factory.openSession();
+            Account users = new Account();
+            try {
+                Query query = (Query) sesn.createQuery("From Account Where username.username=:username and password=:password");
+                query.setParameter("username", username);
+                query.setParameter("password", password);
+                users = (Account) query.uniqueResult();
+            } catch (HibernateException e) {
+                sesn.close();
+                e.printStackTrace();
+            }
+            return users;
+    }
 
-	
+
+    public boolean getByUsername(String username) {
+        Session sesn = factory.openSession();
+
+        boolean account = false;
+        try {
+            Query query = sesn.createQuery("From Account Where username = :username");
+            query.setParameter("username", username);
+            int size = query.list().size();
+            if (size > 0){
+                account = true;
+            }
+        } catch (HibernateException e) {
+            sesn.close();
+            e.printStackTrace();
+        }
+        return account;
+    }
 
 	// get kode
 	public String getCode() {
@@ -108,4 +103,25 @@ public class DataAccount {
 		return users;
 	}
 
+
+	public boolean updatePin(String pin, Long acn) {
+//		System.out.println(pin +" "+acn);
+		Session sesn = factory.openSession();
+		boolean isUpdated = false;
+		 try {
+
+             Query query = (Query) sesn.createQuery("update Account set password= :password where accountNumber= :accountNumber");
+             query.setParameter("password", pin);
+             query.setParameter("accountNumber", acn);
+			 Transaction trx = sesn.beginTransaction();
+             query.executeUpdate();
+				trx.commit();
+             isUpdated = true;
+         } catch (HibernateException e) {
+             sesn.close();
+             e.printStackTrace();
+         }
+		 return isUpdated;
+	}
+	
 }

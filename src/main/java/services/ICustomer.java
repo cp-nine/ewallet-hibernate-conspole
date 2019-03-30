@@ -13,4 +13,6 @@ public interface ICustomer {
     Customer getCustomerNameAndCif(String cif);
 	Account getAccount(String cif);
 
+
+
 }

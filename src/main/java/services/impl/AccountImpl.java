@@ -39,5 +39,25 @@ public class AccountImpl implements IAccount {
         return dataAccount.getCustomer(cif);
     }
 
-}
+    public boolean isUsed(String username) {
+        boolean isUsed = false;
+            if (dataAccount.getByUsername(username)){
+                isUsed = true;
+            }
+        return isUsed;
+    }
+
+	public boolean updatePin(String pin, Long acn) {
+		boolean isUpdate = false;
+		try {
+			if(dataAccount.updatePin(pin, acn)) {
+				isUpdate = true;
+			}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return isUpdate;
+        
+}}
 

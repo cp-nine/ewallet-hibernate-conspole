@@ -1,5 +1,6 @@
 package controller;
 
+import config.BorderPadding;
 import config.Values;
 import entities.Account;
 import entities.Customer;
@@ -8,7 +9,9 @@ import services.ICustomer;
 import services.impl.AccountImpl;
 import services.impl.CustomerImpl;
 
-public class AccountController {
+import java.util.List;
+
+public class AccountController extends BorderPadding {
 
     private IAccount accn = new AccountImpl();
     private ICustomer da = new CustomerImpl();
@@ -21,6 +24,15 @@ public class AccountController {
             System.out.println("Failed to create new account");
         }
 
+    }
+
+    // check username is used by another account
+    public boolean isUsed(String username){
+        boolean isused = false;
+        if (accn.isUsed(username)){
+            isused = true;
+        }
+        return isused;
     }
 
     public Account login(String username, String password) {
@@ -44,8 +56,17 @@ public class AccountController {
 		        System.out.println("============================================");
 		    }
 
+	public void updatePin(String pin, Long acn) {
+		if (accn.updatePin(pin, acn)){
+            System.out.println("Update pin success");
+        } else {
+            System.out.println("Update pin failed");
+        }
 		
 	}
+
+		
+	} 
 
 
 

@@ -58,7 +58,7 @@ public class DataCustomer {
         boolean isAdded = false;
         try {
             Transaction trx = sesn.beginTransaction();
-            sesn.save(customer);
+                sesn.save(customer);
             trx.commit();
             isAdded = true;
         } catch(Exception sqlException) {
