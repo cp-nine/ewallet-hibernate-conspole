@@ -18,9 +18,9 @@ public class Customer {
     private String bDate;
 
     //    tambahan
-    @Column
+    @Column(name = "username")
     private String username;
-    @Column
+    @Column(name = "password")
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "cif", cascade = CascadeType.ALL)

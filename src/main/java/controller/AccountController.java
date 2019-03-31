@@ -3,6 +3,7 @@ package controller;
 import config.BorderPadding;
 import config.Values;
 import entities.Account;
+import entities.Customer;
 import services.IAccount;
 import services.ICustomer;
 import services.impl.AccountImpl;
@@ -13,26 +14,39 @@ import java.util.List;
 public class AccountController extends BorderPadding {
 
     private IAccount accn = new AccountImpl();
-    private ICustomer cst = new CustomerImpl();
-
+    private ICustomer da = new CustomerImpl();
     // create new account
     public void createAccount(Account account) {
 
-        if (accn.createNewAccount(account)) {
-            System.out.println("New account has been created.");
-        } else {
-            System.out.println("Failed to create new account");
-        }
+        Values.isSucces(accn.createNewAccount(account), "Create Account");
+
+    }
+
+    public void getProfileAccount(String cif, Long acnum) {
+        Account acn = accn.getAccount(cif, acnum);
+
+        System.out.println("=============== Profiles ===================");
+        System.out.println("Name           : " + acn.getAccountName());
+        System.out.println("Account Number : " + Values.balance(String.valueOf(acn.getAccountNumber())));
+        System.out.println("Balance        : " + Values.rupiah(acn.getBalance()));
+        System.out.println("============================================");
+    }
+
+    public void updatePin(String pin, Long acn) {
+
+        Values.isSucces(accn.updatePin(pin, acn), "Update Pin");
 
     }
 
     // check username is used by another account
     public boolean isUsed(String username){
+
         boolean isused = false;
         if (accn.isUsed(username)){
             isused = true;
         }
         return isused;
+
     }
 
     public Account login(String username, String password) {
@@ -46,5 +60,19 @@ public class AccountController extends BorderPadding {
         return isLogin;
     }
 
+    public Integer getLastBalance(Long acn) {
+        Integer value = 0;
+        try {
 
+            Long balance = accn.getLastBallance(acn);
+            if (balance != null) {
+                value = balance.intValue();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
 }
+

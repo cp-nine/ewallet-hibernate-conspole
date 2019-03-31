@@ -3,6 +3,7 @@ package data;
 import config.Code;
 import config.HibernateConfig;
 import config.Values;
+import entities.Account;
 import entities.Customer;
 import org.hibernate.*;
 
@@ -93,4 +94,93 @@ public class DataCustomer {
 
         return lastValue;
     }
+
+    public Customer login(String username, String password) {
+        Session sesn = factory.openSession();
+        Customer users = new Customer();
+        try {
+            Query query = (Query) sesn.createQuery("From Customer Where username.username=:username and password=:password");
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+            users = (Customer) query.uniqueResult();
+        } catch (HibernateException e) {
+            sesn.close();
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+
+    public Customer getCustomer(String cif){
+        Session sesn = factory.openSession();
+        Customer users = new Customer();
+
+        try {
+            Query query = (Query) sesn.createQuery("From Customer Where cif.cif= :cif");
+            query.setParameter("cif", cif);
+            users = (Customer) query.uniqueResult();
+        } catch (HibernateException e) {
+            // sesn.close();
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    public List<Account> getAccountList(String cif){
+        // open new session
+        Session sesn = factory.openSession();
+        // create temp variable for list user as array list
+        List<Account> users = new ArrayList<Account>();
+        try {
+            // try to execute query and insert result to users list
+            Query query = sesn.createQuery("FROM Account WHERE cif.cif= :cif");
+            query.setParameter("cif", cif);
+            users = query.list();
+        } catch (HibernateException e){
+            e.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return users;
+    }
+
+    public boolean getByUsername(String username) {
+        Session sesn = factory.openSession();
+
+        boolean account = false;
+        try {
+            Query query = sesn.createQuery("From Customer Where username = :username");
+            query.setParameter("username", username);
+            int size = query.list().size();
+            if (size > 0) {
+                account = true;
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return account;
+    }
+
+    public boolean updatePassword(String password, String cif) {
+        Session sesn = factory.openSession();
+
+        boolean isUpdate = false;
+        try {
+            Query query = sesn.createQuery("UPDATE Customer SET password= :password  WHERE cif = :cif");
+            query.setParameter("password", password);
+            query.setParameter("cif", cif);
+            int update = query.executeUpdate();
+            if (update > 0) {
+                isUpdate = true;
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return isUpdate;
+    }
+
 }

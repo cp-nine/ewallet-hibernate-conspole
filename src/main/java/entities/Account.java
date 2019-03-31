@@ -11,9 +11,9 @@ public class Account {
 
     @Id
     @Column(name = "account_number")
-    private Long account_number;
+    private Long accountNumber;
     @Column(name = "account_name")
-    private String account_name;
+    private String accountName;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -34,60 +34,63 @@ public class Account {
     public Account() {
     }
 
-    public Long getAccount_number() {
-        return account_number;
+    public Long getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setAccount_number(Long account_number) {
-        this.account_number = account_number;
+    public void setAccountNumber(Long accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
-    public String getAccount_name() {
-        return account_name;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setAccount_name(String account_name) {
-        this.account_name = account_name;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public Date getOpen_date() {
-        return open_date;
-    }
+	public Date getOpen_date() {
+		return open_date;
+	}
 
-    public void setOpen_date(Date open_date) {
-        this.open_date = open_date;
-    }
+	public void setOpen_date(Date open_date) {
+		this.open_date = open_date;
+	}
 
-    public Long getBalance() {
-        return balance;
-    }
+	public Long getBalance() {
+		return balance;
+	}
 
-    public void setBalance(Long balance) {
-        this.balance = balance;
-    }
+	public void setBalance(Long balance) {
+		this.balance = balance;
+	}
+
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+ 
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getPasword() {
-        return pasword;
-    }
+	public String getPasword() {
+		return pasword;
+	}
 
-    public void setPasword(String pasword) {
-        this.pasword = pasword;
-    }
+	public void setPasword(String pasword) {
+		this.pasword = pasword;
+	}
 
-    public Customer getCif() {
-        return cif;
-    }
+	public Customer getCif() {
+		return cif;
+	}
 
-    public void setCif(Customer cif) {
-        this.cif = cif;
-    }
+	public void setCif(Customer cif) {
+		this.cif = cif;
+	}
 
+    
 }

@@ -6,6 +6,7 @@ import config.Values;
 import entities.Account;
 import org.hibernate.*;
 
+
 public class DataAccount {
 
     // get session factory connection (replacement DBConnection)
@@ -15,7 +16,7 @@ public class DataAccount {
         Session sesn = factory.openSession();
         boolean isAdded = false;
         try {
-            account.setAccount_number(Long.valueOf(getCode()));
+            account.setAccountNumber(Long.parseLong(getCode()));
             Transaction trx = sesn.beginTransaction();
             sesn.save(account);
             trx.commit();
@@ -31,21 +32,19 @@ public class DataAccount {
         return isAdded;
     }
 
-
-
     public Account login(String username, String password) {
-            Session sesn = factory.openSession();
-            Account users = new Account();
-            try {
-                Query query = (Query) sesn.createQuery("From Account Where username.username=:username and password=:password");
-                query.setParameter("username", username);
-                query.setParameter("password", password);
-                users = (Account) query.uniqueResult();
-            } catch (HibernateException e) {
-                sesn.close();
-                e.printStackTrace();
-            }
-            return users;
+        Session sesn = factory.openSession();
+        Account users = new Account();
+        try {
+            Query query = (Query) sesn.createQuery("From Account Where username.username=:username and password=:password");
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+            users = (Account) query.uniqueResult();
+        } catch (HibernateException e) {
+            sesn.close();
+            e.printStackTrace();
+        }
+        return users;
     }
 
 
@@ -57,7 +56,7 @@ public class DataAccount {
             Query query = sesn.createQuery("From Account Where username = :username");
             query.setParameter("username", username);
             int size = query.list().size();
-            if (size > 0){
+            if (size > 0) {
                 account = true;
             }
         } catch (HibernateException e) {
@@ -67,6 +66,20 @@ public class DataAccount {
         return account;
     }
 
+    // get last balace
+    public Long getLastBalance(Long acNumber) {
+        Long balance = null;
+        Session sesn = factory.openSession();
+        try {
+            Query query = (Query) sesn.createQuery("SELECT balance From Account Where account_number= :acn");
+            query.setParameter("acn", acNumber);
+            balance = (Long) query.uniqueResult();
+        } catch (HibernateException e) {
+            sesn.close();
+            e.printStackTrace();
+        }
+        return balance;
+    }
 
     // get kode
     public String getCode() {
@@ -89,4 +102,85 @@ public class DataAccount {
         return lastValue;
     }
 
+    public Account getCustomer(String cif, Long acnum) {
+        Session sesn = factory.openSession();
+        Account users = new Account();
+
+        try {
+            Query query = (Query) sesn.createQuery("From Account Where cif.cif= :cif AND account_number= :acnum");
+            query.setMaxResults(1);
+            query.setParameter("cif", cif);
+            query.setParameter("acnum", acnum);
+            users = (Account) query.uniqueResult();
+        } catch (HibernateException e) {
+             sesn.close();
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+
+    public boolean updatePin(String pin, Long acn) {
+        Session sesn = factory.openSession();
+        boolean isUpdated = false;
+        try {
+            Query query = (Query) sesn.createQuery("update Account set password= :password where accountNumber= :accountNumber");
+            query.setParameter("password", pin);
+            query.setParameter("accountNumber", acn);
+            Transaction trx = sesn.beginTransaction();
+            query.executeUpdate();
+            trx.commit();
+            isUpdated = true;
+        } catch (HibernateException e) {
+            sesn.close();
+            e.printStackTrace();
+        }
+        return isUpdated;
+    }
+
+    public boolean updateSaldoPlus(Long acn, Long saldo) {
+        Session sesn = factory.openSession();
+        boolean isSaved = false;
+        try {
+            Long lastBalance = getLastBalance(acn);
+            Transaction trx = sesn.beginTransaction();
+            Query query = (Query) sesn.createQuery("UPDATE Account SET balance= :blc Where account_number= :acn");
+            query.setParameter("blc", lastBalance + saldo);
+            query.setParameter("acn", acn);
+            query.executeUpdate();
+            trx.commit();
+            isSaved = true;
+        } catch (Exception sqlException) {
+            if (sesn.getTransaction() != null) {
+                sesn.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return isSaved;
+    }
+
+    public boolean updateSaldoMinus(Long acn, Long saldo) {
+        Session sesn = factory.openSession();
+        boolean isSaved = false;
+        try {
+            Long lastBalance = getLastBalance(acn);
+            Transaction trx = sesn.beginTransaction();
+            Query query = (Query) sesn.createQuery("UPDATE Account SET balance= :blc Where account_number= :acn");
+            query.setParameter("blc", lastBalance - saldo);
+            query.setParameter("acn", acn);
+            query.executeUpdate();
+            trx.commit();
+            isSaved = true;
+        } catch (Exception sqlException) {
+            if (sesn.getTransaction() != null) {
+                sesn.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return isSaved;
+    }
 }

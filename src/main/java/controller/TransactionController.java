@@ -6,7 +6,9 @@ import entities.TrxEntity;
 import services.ITrx;
 import services.impl.TrxImpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class TransactionController extends BorderPadding {
@@ -34,43 +36,44 @@ public class TransactionController extends BorderPadding {
             );
         } else {
             for (TrxEntity tr : listtrx) {
+
+                Map<String, String> trx = checkTransaction(tr.getTrxType(),tr.getAcnDebet());
+
                 int num = no++;
-                if (tr.getTrxType().equals("T0001")) {
-                    System.out.println("| " + padRight((String.valueOf(num)), 5)
-                            + "| " + padRight("Top Up", 20)
-                            + "| " + padRight(Values.rupiah(tr.getAmount()), 25)
-                            + "| " + padRight(" - ", 20)
-                            + "| " + padRight(String.valueOf(tr.getDate()), 21)
-                            + " |"
-                    );
-                } else if (tr.getTrxType().equals("T0002")) {
-                    System.out.println("| " + padRight((String.valueOf(num)), 5)
-                            + "| " + padRight("Transfer", 20)
-                            + "| " + padRight(Values.rupiah(tr.getAmount()), 25)
-                            + "| " + padRight(Values.balance(String.valueOf(tr.getAcnDebet())), 20)
-                            + "| " + padRight(String.valueOf(tr.getDate()), 21)
-                            + " |"
-                    );
-                } else if (tr.getTrxType().equals("T0003")) {
-                    System.out.println("| " + padRight((String.valueOf(num)), 5)
-                            + "| " + padRight("With Draw", 20)
-                            + "| " + padRight(Values.rupiah(tr.getAmount()), 25)
-                            + "| " + padRight(" - ", 20)
-                            + "| " + padRight(String.valueOf(tr.getDate()), 21)
-                            + " |"
-                    );
-                } else if (tr.getTrxType().equals("T0004")) {
-                    System.out.println("| " + padRight((String.valueOf(num)), 5)
-                            + "| " + padRight("Payment", 20)
-                            + "| " + padRight(Values.rupiah(tr.getAmount()), 25)
-                            + "| " + padRight(" - ", 20)
-                            + "| " + padRight(String.valueOf(tr.getDate()), 21)
-                            + " |"
-                    );
-                }
+                System.out.println("| " + padRight((String.valueOf(num)), 5)
+                        + "| " + padRight(trx.get("transaction"), 20)
+                        + "| " + padRight(Values.rupiah(tr.getAmount()), 25)
+                        + "| " + padRight((trx.get("transaction").equals("Transfer"))? trx.get("trxaccount") : " - ", 20)
+                        + "| " + padRight(String.valueOf(tr.getDate()), 21)
+                        + " |"
+                );
             }
         }
         border(51);
+
+    }
+
+
+    static Map<String, String> checkTransaction(String type, Long acnDebet){
+        Map<String, String> maps = new HashMap<String, String>();
+
+        String transaction="";
+        String trxAccount="";
+        if (type.equals("T0001")){
+            transaction = "Top Up";
+        } else if (type.equals("T0002")){
+            transaction = "Transfer";
+            trxAccount = acnDebet.toString();
+        } else if (type.equals("T0003")){
+            transaction = "Cash Withdrawal";
+        } else if (type.equals("T0004")){
+            transaction = "Payment";
+        }
+
+        maps.put("transaction", transaction);
+        maps.put("trxaccount", trxAccount);
+
+        return maps;
 
     }
 

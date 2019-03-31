@@ -1,6 +1,7 @@
 package services.impl;
 
 import data.DataCustomer;
+import entities.Account;
 import entities.Customer;
 import services.ICustomer;
 
@@ -35,6 +36,54 @@ public class CustomerImpl implements ICustomer {
         Customer customer = dataCustomer.getNameCif(cif);
         return customer;
 
+    }
+
+	public Account getAccount(String cif) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Customer getCustomer(String cif) {
+        return dataCustomer.getCustomer(cif);
+    }
+
+    @Override
+    public List<Account> getAccountList(String cif) {
+        return dataCustomer.getAccountList(cif);
+    }
+
+    public Customer login(String username, String password) {
+        Customer logAccount = null;
+        try {
+            Customer account = dataCustomer.login(username, password);
+            if (account != null) {
+                logAccount = account;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return logAccount;
+
+    }
+
+    @Override
+    public boolean isUsed(String username) {
+        boolean isUsed = false;
+        if (dataCustomer.getByUsername(username)) {
+            isUsed = true;
+        }
+        return isUsed;
+    }
+
+    @Override
+    public boolean updatePassword(String password, String cif) {
+        boolean isUpdated = false;
+        if (dataCustomer.updatePassword(password, cif)) {
+            isUpdated = true;
+        }
+        return isUpdated;
     }
 
 }

@@ -1,16 +1,14 @@
 package config;
 
-import entities.Account;
-import entities.Customer;
-import entities.TrxEntity;
+import entities.*;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 /*
-* Hibernate Configuration and Replacement for mysql connection.
-*/
+ * Hibernate Configuration and Replacement for mysql connection.
+ */
 
 public class HibernateConfig {
 
@@ -25,11 +23,14 @@ public class HibernateConfig {
                 // config.configure();
                 config.configure("hibernate.cfg.xml");
                 // named query by xml
-                config.addResource("named-queries.hbm.xml");
+//                config.addResource("named-queries.hbm.xml");
 
                 // add annotatedClass here
                 config.addAnnotatedClass(Customer.class);
                 config.addAnnotatedClass(Account.class);
+                config.addAnnotatedClass(TrxEntity.class);
+                config.addAnnotatedClass(Wallet.class);
+                config.addAnnotatedClass(WalletAccount.class);
                 config.addAnnotatedClass(TrxEntity.class);
 
                 serviceRegistry = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();

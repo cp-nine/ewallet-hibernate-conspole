@@ -12,17 +12,22 @@ CREATE TABLE `tb_account` (
   `open_date` timestamp NULL DEFAULT current_timestamp(),
   `balance` bigint(20) DEFAULT 0,
   `cif` varchar(15) DEFAULT NULL,
+  `username` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`account_number`),
   KEY `FKcrkt5p53pvo1m90w3xq6bqqg3` (`cif`),
   CONSTRAINT `FKcrkt5p53pvo1m90w3xq6bqqg3` FOREIGN KEY (`cif`) REFERENCES `tb_customer` (`cif`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `tb_account` (`account_number`, `account_name`, `open_date`, `balance`, `cif`, `password`) VALUES
-(1335343463,	'Khoirul Fajri',	'2019-03-25 15:28:26',	4900000,	'K3059163',	'123456'),
-(7287688874,	'Uswatun Khasanah',	'2019-03-26 13:59:34',	3000000,	'U5759602',	'123456'),
-(9338031422,	'Uswatun Khasanah',	'2019-03-25 15:11:56',	860000,	'U5759602',	'123456'),
-(9466785391,	'Ikhsan Fauji',	'2019-03-25 13:20:48',	5000000,	'I1970181',	'123456');
+INSERT INTO `tb_account` (`account_number`, `account_name`, `open_date`, `balance`, `cif`, `username`, `password`) VALUES
+(1335343463,	'Khoirul Fajri',	'2019-03-25 15:28:26',	5000000,	'K3059163',	'fajri',	'123456'),
+(3338046628,	'Dian Sastro',	'2019-03-30 01:02:19',	1000000,	'D9129177',	'dian',	'123456'),
+(4305488537,	'Jono Sutejo',	'2019-03-29 16:35:22',	3001,	'J0153176',	'jono2',	'123456'),
+(5006031246,	'Ikhsan Fauji',	'2019-03-29 02:58:33',	2000000,	'I1970181',	'ikhsan2',	'123456'),
+(7287688874,	'Uswatun Khasanah',	'2019-03-26 13:59:34',	3000000,	'U5759602',	'uswa',	'123456'),
+(8512369875,	'Jono Sutejo',	'2019-03-28 16:24:54',	2001000,	'J0153176',	'jono',	'123456'),
+(9338031422,	'Uswatun Khasanah',	'2019-03-25 15:11:56',	70171999,	'U5759602',	'uswa2',	'234567'),
+(9466785391,	'Ikhsan Fauji',	'2019-03-25 13:20:48',	20000000,	'I1970181',	'ikhsan',	'123456');
 
 DROP TABLE IF EXISTS `tb_customer`;
 CREATE TABLE `tb_customer` (
@@ -37,6 +42,7 @@ CREATE TABLE `tb_customer` (
 
 INSERT INTO `tb_customer` (`cif`, `first_name`, `last_name`, `brith_date`, `password`, `username`) VALUES
 ('C6358985',	'Citra',	'Ika',	'2001-07-11',	NULL,	NULL),
+('D9129177',	'Dian',	'Sastro',	'1998-05-24',	NULL,	NULL),
 ('I1970181',	'Ikhsan',	'Fauji',	'1996-03-11',	NULL,	NULL),
 ('J0153176',	'Jono',	'Sutejo',	'1997-02-23',	NULL,	NULL),
 ('K3059163',	'Khoirul',	'Fajri',	'2004-04-14',	NULL,	NULL),
@@ -2575,7 +2581,28 @@ INSERT INTO `tb_transaction` (`id`, `transaction_type`, `acn_debet`, `acn_credit
 (8,	'T0003',	0,	9338031422,	100000,	'2019-03-25 15:37:23'),
 (9,	'T0004',	1335343463,	9338031422,	100000,	'2019-03-25 16:07:04'),
 (10,	'T0002',	9466785391,	9338031422,	100000,	'2019-03-25 16:36:46'),
-(11,	'T0003',	0,	9338031422,	50000,	'2019-03-25 16:39:01');
+(11,	'T0003',	0,	9338031422,	50000,	'2019-03-25 16:39:01'),
+(12,	'T0002',	4305488537,	9338031422,	10000,	'2019-03-29 17:09:25'),
+(13,	'T0002',	4305488537,	9338031422,	15000,	'2019-03-29 17:11:23'),
+(14,	'T0002',	4305488537,	9338031422,	13000,	'2019-03-29 17:27:09'),
+(15,	'T0003',	NULL,	9338031422,	100000,	'2019-03-29 17:38:35'),
+(16,	'T0002',	9466785391,	9338031422,	15000000,	'2019-03-29 17:39:27'),
+(17,	'T0001',	9338031422,	NULL,	200000,	'2019-03-29 19:27:44'),
+(18,	'T0001',	9338031422,	NULL,	200000,	'2019-03-29 19:29:23'),
+(19,	'T0001',	9338031422,	NULL,	200000,	'2019-03-29 19:31:39'),
+(20,	'T0001',	9338031422,	NULL,	100000,	'2019-03-29 19:32:16'),
+(21,	'T0002',	9338031422,	9338031422,	1000,	'2019-03-29 19:42:39'),
+(22,	'T0002',	8512369875,	9338031422,	1000,	'2019-03-29 19:43:36'),
+(23,	'T0003',	NULL,	9338031422,	50000,	'2019-03-29 19:51:12'),
+(24,	'T0004',	NULL,	9338031422,	1000,	'2019-03-29 19:58:22'),
+(25,	'T0002',	1335343463,	3338046628,	50000,	'2019-03-30 01:07:23'),
+(26,	'T0003',	NULL,	3338046628,	50000,	'2019-03-30 01:08:41'),
+(27,	'T0002',	1335343463,	4305488537,	50000,	'2019-03-30 02:17:46'),
+(28,	'T0003',	NULL,	4305488537,	70000,	'2019-03-30 02:20:01'),
+(29,	'T0001',	4305488537,	NULL,	5000,	'2019-03-30 02:22:35'),
+(30,	'T0002',	9338031422,	9338031422,	32000,	'2019-03-30 02:32:31'),
+(31,	'T0002',	3338046628,	9338031422,	200000,	'2019-03-30 02:33:48'),
+(32,	'T0004',	NULL,	9338031422,	50000,	'2019-03-30 02:35:53');
 
 DROP TABLE IF EXISTS `tb_transaction_type`;
 CREATE TABLE `tb_transaction_type` (
@@ -2592,19 +2619,26 @@ INSERT INTO `tb_transaction_type` (`code`, `description`) VALUES
 
 DROP TABLE IF EXISTS `tb_wallet`;
 CREATE TABLE `tb_wallet` (
-  `id` int(11) NOT NULL,
+  `wallet_id` int(11) NOT NULL,
   `description` varchar(225) DEFAULT NULL,
-  `active_balance` int(225) DEFAULT 0,
+  `active_balance` int(225) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `type` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `kode_toko` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`wallet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `tb_wallet` (`id`, `description`, `active_balance`, `created_at`, `type`) VALUES
-(18064,	'E-Banking',	0,	'2019-03-25 16:18:05',	'e-banking'),
-(22543,	'OVO',	140000,	'2019-03-25 15:29:31',	'e-payment'),
-(22681,	'OVO',	250000,	'2019-03-25 14:29:13',	'e-payment'),
-(96032,	'OVO',	785000,	'2019-03-25 15:19:38',	'e-payment');
+INSERT INTO `tb_wallet` (`wallet_id`, `description`, `active_balance`, `created_at`, `type`, `kode_toko`) VALUES
+(13389,	'Goooo',	5000,	'2019-03-30 02:12:55',	'e-payment',	NULL),
+(18064,	'E-Banking',	0,	'2019-03-25 16:18:05',	'e-banking',	NULL),
+(22543,	'OVO',	142000,	'2019-03-25 15:29:31',	'e-payment',	NULL),
+(22681,	'OVO',	250000,	'2019-03-25 14:29:13',	'e-payment',	NULL),
+(54445,	'Go Pay',	0,	'2019-03-29 20:56:37',	'e-payment',	NULL),
+(54537,	'OVO',	50000,	'2019-03-30 01:04:49',	'e-banking',	NULL),
+(55278,	'f3f7c',	32000,	'2019-03-30 01:10:29',	'e-payment',	NULL),
+(67696,	'E-Banking',	0,	'2019-03-29 21:03:01',	'e-banking',	NULL),
+(80610,	'tyu',	0,	'2019-03-30 02:16:57',	'e-payment',	NULL),
+(96032,	'OVO',	750000,	'2019-03-25 15:19:38',	'e-payment',	NULL);
 
 DROP TABLE IF EXISTS `tb_wallet_account`;
 CREATE TABLE `tb_wallet_account` (
@@ -2612,7 +2646,9 @@ CREATE TABLE `tb_wallet_account` (
   `wallet_id` int(11) NOT NULL,
   `account_number` bigint(20) DEFAULT NULL,
   `status` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`wa_id`)
+  PRIMARY KEY (`wa_id`),
+  KEY `FKhlrpa2axcmb5ktw2np77jo35a` (`wallet_id`),
+  CONSTRAINT `FKhlrpa2axcmb5ktw2np77jo35a` FOREIGN KEY (`wallet_id`) REFERENCES `tb_wallet` (`wallet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `tb_wallet_account` (`wa_id`, `wallet_id`, `account_number`, `status`) VALUES
@@ -2620,6 +2656,11 @@ INSERT INTO `tb_wallet_account` (`wa_id`, `wallet_id`, `account_number`, `status
 (2,	96032,	9338031422,	'active'),
 (3,	22543,	1335343463,	'active'),
 (4,	18064,	9338031422,	'active'),
-(5,	96032,	7287688874,	'active');
+(7,	54445,	9338031422,	'nonactive'),
+(8,	67696,	4305488537,	'active'),
+(9,	54537,	3338046628,	'active'),
+(10,	55278,	3338046628,	'active'),
+(11,	13389,	4305488537,	'active'),
+(12,	80610,	4305488537,	'active');
 
--- 2019-03-28 09:19:38
+-- 2019-03-30 02:38:50
