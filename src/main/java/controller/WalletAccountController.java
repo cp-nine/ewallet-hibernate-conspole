@@ -1,5 +1,6 @@
 package controller;
 
+import config.Values;
 import entities.TrxEntity;
 import entities.Wallet;
 import services.ITrx;
@@ -16,59 +17,43 @@ public class WalletAccountController {
 
     public boolean isAvailableWallet(Long an) {
 
-        if (iwc.isAvailableWallet(an)) {
-            return true;
-        } else {
+        if (!iwc.isAvailableWallet(an)) {
             return false;
+        } else {
+            return true;
         }
     }
 
     public void transfer(TrxEntity trxEntity) {
-        if (!iTrx.transfer(trxEntity)){
-            System.out.println("Transfer failed");
-        } else {
-            System.out.println("Transfer success");
-        }
+        Values.isSucces(iTrx.transfer(trxEntity), "Transfer");
     }
 
     public void tariktunai(TrxEntity trxEntity) {
-        if (!iTrx.tariktunai(trxEntity)){
-            System.out.println("Cash Withdrawal failed");
-        } else {
-            System.out.println("Cash Withdrawal success");
-        }
+        Values.isSucces(iTrx.tariktunai(trxEntity), "Cash Withdrawal");
     }
 
     public void tariktunai(TrxEntity trxEntity, Integer wid) {
-        if (!iTrx.tariktunai(trxEntity, wid)){
-            System.out.println("Cash Withdrawal success");
-        } else {
-            System.out.println("Cash Withdrawal failed");
-        }
+        Values.isSucces(iTrx.tariktunai(trxEntity, wid), "Cash Withdrawal");
     }
 
     public void topup(TrxEntity trxEntity, Integer forWallet) {
-        iTrx.topUp(trxEntity, forWallet);
+        Values.isSucces(iTrx.topUp(trxEntity, forWallet), "Top Up");
     }
 
     public void topup(TrxEntity trxEntity, Integer forWallet, Integer byWallet) {
-        iTrx.topUp(trxEntity, forWallet, byWallet);
+        Values.isSucces(iTrx.topUp(trxEntity, forWallet, byWallet), "Top Up");
     }
 
     public void transferByWallet(TrxEntity trxEntity, Integer wid) {
-        iTrx.transferByWallet(trxEntity, wid);
+        Values.isSucces(iTrx.transferByWallet(trxEntity, wid), "Transfer");
     }
 
     public void transferByWallet(TrxEntity trxEntity, Integer wid, Integer toWallet) {
-        iTrx.transferByWallet(trxEntity, wid, toWallet);
+        Values.isSucces(iTrx.transferByWallet(trxEntity, wid, toWallet), "Transfer");
     }
 
     public void addWalletAccount(String type, String description, Long accountNumber) {
-        if (!iwc.addWalletAccount(type, description, accountNumber)){
-            System.out.println("Failled to create e-wallet");
-        } else {
-            System.out.println("E wallet succes created");
-        }
+        Values.isSucces(iwc.addWalletAccount(type, description, accountNumber), "Create E-Wallet");
     }
 
     public boolean isRegister(Long an, Integer wid) {
@@ -86,10 +71,6 @@ public class WalletAccountController {
     }
 
     public void unreg(Long nr, Integer wid) {
-        if(!iwc.unreg(nr, wid)){
-            System.out.println("Failled to unreg");
-        } else {
-            System.out.println("Un reg success");
-        }
+        Values.isSucces(iwc.unreg(nr, wid), "Unreg Wallet");
     }
 }

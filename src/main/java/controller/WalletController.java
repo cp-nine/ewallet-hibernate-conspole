@@ -1,9 +1,12 @@
 package controller;
 
+import config.Values;
 import entities.Wallet;
 import entities.WalletAccount;
+import services.IAccount;
 import services.IWallet;
 import services.IWalletAccount;
+import services.impl.AccountImpl;
 import services.impl.WalletAccountImpl;
 import services.impl.WalletImpl;
 
@@ -11,6 +14,7 @@ import java.util.List;
 
 public class WalletController {
 
+    private static IAccount iAccount = new AccountImpl();
     private static IWalletAccount iwc = new WalletAccountImpl();
     private static IWallet iWallet = new WalletImpl();
 
@@ -18,16 +22,16 @@ public class WalletController {
 
         try {
             List<WalletAccount> wallets = iWallet.getAllWallet(acn);
-            if (wallets.size() < 1){
+            if (wallets.size() < 1) {
                 System.out.println("Cannot show wallets");
             } else {
                 System.out.println("======== Your Wallet =========");
                 int no = 1;
                 for (WalletAccount w : wallets) {
-                    System.out.println((no++) + ". " + w.getWallet_id().getDescription()+" "+w.getAccount_number());
+                    System.out.println((no++) + ". " + w.getWallet_id().getDescription() + " " + w.getAccount_number());
                 }
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -41,34 +45,46 @@ public class WalletController {
 
         try {
             List<Wallet> wallets = iwc.getAllWalletId(acn);
-            if (wallets.size() < 1){
+            if (wallets.size() < 1) {
                 System.out.println("Cannot show wallets");
             } else {
                 wallId = wallets;
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
         return wallId;
     }
 
-    public String getWalletDescType(Integer wid){
-        return iWallet.getType(wid);
+    public String getWalletDescType(Integer wid) {
+
+        String walletId = iWallet.getType(wid);
+        if (!walletId.equals("") || walletId.equals(null)) {
+            System.out.println("Wallet not found.");
+        }
+
+        return walletId;
     }
 
-    public Wallet getWp(Integer wid) {
-        Wallet value = null;
-        try {
-            Wallet wallet = iWallet.getWp(wid);
-            if (wallet != null) {
-                value = wallet;
-            }
+    public void getWp(Integer wid, Long sessAccountNumber) {
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        Long balance = Long.valueOf(0);
+        Wallet wallet = iWallet.getWp(wid);
+        if (wallet.getType().equals("e-banking")) {
+            balance = iAccount.getLastBallance(sessAccountNumber);
+        } else {
+            balance = wallet.getActiveBalance();
         }
-        return value;
+
+        System.out.println("=============== Profiles ===================");
+        System.out.println("Wallei Id      : " + wallet.getWallet_id());
+        System.out.println("Description    : " + wallet.getDescription());
+        System.out.println("Type           : " + wallet.getType());
+        System.out.println("Active Balance : " + Values.rupiah(balance));
+        System.out.println("============================================");
+        System.out.println();
+
     }
 
     public Integer getLastBalance(Integer wid) {

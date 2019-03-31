@@ -9,7 +9,7 @@ public interface IAccount {
 
     // login account
     Account login(String cif, String password);
-    Account getAccount(String cif);
+    Account getAccount(String cif, Long acnum);
 
     // check is used by another account
     boolean isUsed(String username);

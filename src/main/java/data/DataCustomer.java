@@ -144,4 +144,43 @@ public class DataCustomer {
         return users;
     }
 
+    public boolean getByUsername(String username) {
+        Session sesn = factory.openSession();
+
+        boolean account = false;
+        try {
+            Query query = sesn.createQuery("From Customer Where username = :username");
+            query.setParameter("username", username);
+            int size = query.list().size();
+            if (size > 0) {
+                account = true;
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return account;
+    }
+
+    public boolean updatePassword(String password, String cif) {
+        Session sesn = factory.openSession();
+
+        boolean isUpdate = false;
+        try {
+            Query query = sesn.createQuery("UPDATE Customer SET password= :password  WHERE cif = :cif");
+            query.setParameter("password", password);
+            query.setParameter("cif", cif);
+            int update = query.executeUpdate();
+            if (update > 0) {
+                isUpdate = true;
+            }
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        } finally {
+            sesn.close();
+        }
+        return isUpdate;
+    }
+
 }

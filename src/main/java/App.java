@@ -5,8 +5,6 @@ import entities.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class App {
@@ -18,8 +16,10 @@ public class App {
     static AccountController ac = new AccountController();
     static WalletAccountController wac = new WalletAccountController();
     static WalletController wc = new WalletController();
-    static List<Account> listAccount = new ArrayList<Account>();
-    static List<Customer> listCustomer = new ArrayList<Customer>();
+
+    static Long sessAccountNumber = Long.valueOf(0);
+    static String sessAccountCif = "";
+    static String sessCustomerCif = "";
     static Integer idWallet = 0;
     static String topUp = "T0001";
     static String transfer = "T0002";
@@ -39,6 +39,7 @@ public class App {
                     System.out.println("1. New Customer");
                     System.out.println("2. Customer Login");
                     System.out.println("3. Account Login");
+                    System.out.println("4. Exit");
                     System.out.println();
                     System.out.println("=========================");
 
@@ -51,18 +52,21 @@ public class App {
                         loginCustomer();
                     } else if (menu == 3) {
                         login();
-                    } else {
-                        System.out.println("Wrong input");
+                    } else if (menu == 4) {
+                        System.exit(1);
+                    }  else {
+                        Values.inputNotValid();
                     }
 
                 } catch (Exception e) {
-                    System.out.println("Wrong input");
+                    Values.inputNotValid();
                 }
 
             } while (!isExit);
             input.close();
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
 
@@ -105,29 +109,30 @@ public class App {
                                     if (username.length() < 1) {
                                         System.out.println("Username cannot empty");
                                     } else {
-//                                        if (ac.isUsed(username)) {
-//                                            System.out.println("Username is used");
-//                                        } else {}}
-                                        System.out.print("Password          : ");
-                                        String password = input.readLine().trim();
-                                        if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
-                                            System.out.println("Pin must be six number");
+                                        if (cc.isUsedCustomer(username)) {
+                                            System.out.println("Username is used");
                                         } else {
-                                            System.out.print("Confirm Password      : ");
-                                            String password2 = input.readLine().trim();
-                                            if (!password2.matches(password)) {
-                                                System.out.println("Password doesn't match");
+                                            System.out.print("Password          : ");
+                                            String password = input.readLine().trim();
+                                            if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
+                                                System.out.println("Pin must be six number");
                                             } else {
-                                                String bod = yob + "-" + bm + "-" + dob;
-                                                Customer nc = new Customer();
-                                                nc.setFname(fname);
-                                                nc.setLname(lname);
-                                                nc.setbDate(bod);
-                                                nc.setUsername(username);
-                                                nc.setPassword(password);
+                                                System.out.print("Confirm Password      : ");
+                                                String password2 = input.readLine().trim();
+                                                if (!password2.matches(password)) {
+                                                    System.out.println("Password doesn't match");
+                                                } else {
+                                                    String bod = yob + "-" + bm + "-" + dob;
+                                                    Customer nc = new Customer();
+                                                    nc.setFname(fname);
+                                                    nc.setLname(lname);
+                                                    nc.setbDate(bod);
+                                                    nc.setUsername(username);
+                                                    nc.setPassword(password);
 
-                                                cc.addCustomer(nc);
-                                                kembali = true;
+                                                    cc.addCustomer(nc);
+                                                    kembali = true;
+                                                }
                                             }
                                         }
                                     }
@@ -140,6 +145,7 @@ public class App {
             } while (!kembali);
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }
@@ -173,7 +179,7 @@ public class App {
                                 if (!Values.isNumeric(tabungan) || Long.valueOf(tabungan) < 50000) {
                                     System.out.println("Please enter valid value!, Minimum balance Rp.50.000");
                                 } else {
-                                    Customer cs = cc.getNameCif(listCustomer.get(0).getCif());
+                                    Customer cs = cc.getNameCif(sessCustomerCif);
                                     if (cs.equals(null)) {
                                         System.out.println("Customer not found");
                                     } else {
@@ -197,6 +203,7 @@ public class App {
             } while (!kembali2);
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }
@@ -207,18 +214,19 @@ public class App {
             System.out.println("===== Login ======");
             System.out.print("Username : ");
             String username = input.readLine();
-            System.out.print("PIN : ");
+            System.out.print("Password : ");
             String password = input.readLine();
 
             Customer acLog = cc.loginCustomer(username, password);
             if (acLog != null) {
-                listCustomer.add(acLog);
+                sessCustomerCif = acLog.getCif();
                 mainMenuCustomer();
             } else {
                 System.out.println("Username or pin not valid");
             }
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
 
@@ -230,18 +238,20 @@ public class App {
             System.out.println("===== Login ======");
             System.out.print("Username : ");
             String username = input.readLine();
-            System.out.print("PIN : ");
+            System.out.print("PIN      : ");
             String password = input.readLine();
 
             Account acLog = ac.login(username, password);
             if (acLog != null) {
-                listAccount.add(acLog);
+                sessAccountNumber = acLog.getAccountNumber();
+                sessAccountCif = acLog.getCif().getCif();
                 mainMenu();
             } else {
                 System.out.println("Username or pin not valid");
             }
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
 
@@ -257,7 +267,8 @@ public class App {
                 System.out.println("1. Profile details");
                 System.out.println("2. List Account");
                 System.out.println("3. Create Account");
-                System.out.println("4. Log Out");
+                System.out.println("4. Update Password");
+                System.out.println("5. Log Out");
                 System.out.println("=============================");
                 System.out.println();
                 System.out.print("Select menu > ");
@@ -267,20 +278,23 @@ public class App {
                 } else {
                     int menu = Integer.parseInt(valMenu);
                     if (menu == 1) {
-                        cc.getProfileCustomer(listCustomer.get(0).getCif());
+                        cc.getProfileCustomer(sessCustomerCif);
                     } else if (menu == 2) {
-                        cc.listAccount(listCustomer.get(0).getCif());
+                        cc.listAccount(sessCustomerCif);
                     } else if (menu == 3) {
                         createAccount();
                     } else if (menu == 4) {
-                        kembali=true;
+                        updatePassword();
+                    } else if (menu == 5) {
+                        sessCustomerCif="";
+                        kembali = true;
                     }
                 }
             } while (!kembali);
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
-            System.out.println("Input not valid..");
         }
 
     }
@@ -291,8 +305,6 @@ public class App {
         boolean kembali = false;
         try {
             do {
-                Long acNumber = listAccount.get(0).getAccountNumber();
-
                 System.out.println("========= Main Menu =========");
                 System.out.println("1. Profile details");
                 System.out.println("2. Transaction Report");
@@ -310,15 +322,15 @@ public class App {
                 } else {
                     int menu = Integer.parseInt(valMenu);
                     if (menu == 1) {
-                        ac.getProfileAccount(listAccount.get(0).getCif().getCif());
+                        ac.getProfileAccount(sessAccountCif, sessAccountNumber);
                     } else if (menu == 2) {
-                        trx.transactionReport(acNumber);
+                        trx.transactionReport(sessAccountNumber);
                     } else if (menu == 3) {
                         updatePin();
                     } else if (menu == 4) {
-                        if (wac.isAvailableWallet(acNumber)) {
+                        if (wac.isAvailableWallet(sessAccountNumber)) {
                             // get wallet list
-                            wc.getAllWallet(acNumber);
+                            wc.getAllWallet(sessAccountNumber);
 
                             System.out.print("Select wallet: ");
                             System.out.println();
@@ -329,7 +341,7 @@ public class App {
                                 int number = Integer.parseInt(valNumber);
 
                                 int x = 1;
-                                for (Wallet w : wc.getAllWalletId(acNumber)) {
+                                for (Wallet w : wc.getAllWalletId(sessAccountNumber)) {
                                     if (number == (x++)) {
                                         idWallet = w.getWallet_id();
                                     }
@@ -348,13 +360,13 @@ public class App {
                                 createWalletAccount();
 
                             } else {
-                                System.out.println("Wrong input..");
+                                Values.inputNotValid();
                             }
                         }
                     } else if (menu == 5) {
                         createWalletAccount();
                     } else if (menu == 6) {
-                        if (!wac.isAvailableWallet(acNumber)) {
+                        if (!wac.isAvailableWallet(sessAccountNumber)) {
                             System.out.println("You have not wallet yet.");
                         } else {
                             System.out.println("Are you sure to disactivate your wallet ?");
@@ -364,23 +376,25 @@ public class App {
                                 System.out.println("Please input valid id");
                             } else {
                                 Integer walletid = Integer.parseInt(valWal);
-                                if (!wac.isRegister(acNumber, walletid)) {
+                                if (!wac.isRegister(sessAccountNumber, walletid)) {
                                     System.out.println("Wallet not wound..");
                                 } else {
-                                    wac.unreg(acNumber, walletid);
+                                    wac.unreg(sessAccountNumber, walletid);
                                 }
                             }
                         }
 
                     } else if (menu == 7) {
-                        System.exit(1);
+                        sessAccountCif = "";
+                        sessAccountNumber = Long.valueOf(0);
+                        kembali=true;
                     }
                 }
             } while (!kembali);
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
-            System.out.println("Input not valid..");
         }
 
     }
@@ -418,12 +432,6 @@ public class App {
                         String codever = Code.makeCode("", uuid, 5);
                         System.out.println("Verfication code - " + codever);
                         System.out.println("Create wallet account");
-//                        System.out.print("Enter account number : ");
-//                        String valAccount = input.readLine().trim();
-//                        if (!Values.isNumeric(valAccount)) {
-//                            System.out.println("Please insert number");
-//                        } else {
-//                            Long accountNumber = Long.parseLong(valAccount);
                         System.out.print("Description :");
                         String description = input.readLine();
                         System.out.print("Insert verification code: ");
@@ -431,14 +439,41 @@ public class App {
                         if (!verify.equals(codever)) {
                             System.out.println("Verification code doesn't match!!!");
                         } else {
-                            wac.addWalletAccount(type, description, listAccount.get(0).getAccountNumber());
+                            wac.addWalletAccount(type, description, sessAccountNumber);
                             kembali3 = true;
                         }
-//                        }
                     }
                 }
 
             } while (!kembali3);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private static void updatePassword() {
+        try {
+            System.out.println("-------------- Update Your Password ------------");
+            boolean kembali2 = false;
+            do {
+                System.out.print("New Password          : ");
+                String password = input.readLine().trim();
+                if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
+                    System.out.println("Password must be six number");
+                } else {
+                    System.out.print("Confirm Password      : ");
+                    String password2 = input.readLine().trim();
+                    if (!password2.matches(password)) {
+                        System.out.println("Password doesn't match");
+                    } else {
+                        cc.updatePassword(password, sessCustomerCif);
+                        kembali2 = true;
+                    }
+                }
+
+            } while (!kembali2);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -461,19 +496,16 @@ public class App {
                     if (!password2.matches(password)) {
                         System.out.println("PIN doesn't match");
                     } else {
-                        ac.updatePin(password, listAccount.get(0).getAccountNumber());
+                        ac.updatePin(password, sessAccountNumber);
                         kembali2 = true;
-
                     }
                 }
-
 
             } while (!kembali2);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
 
     }
 
@@ -486,7 +518,7 @@ public class App {
             walletEpayment();
             System.out.println("Epayment");
         } else {
-            System.out.println(wc.getWalletDescType(wid) + "tidak ketemu");
+            System.out.println(wc.getWalletDescType(wid) + " not found.");
         }
     }
 
@@ -496,14 +528,7 @@ public class App {
         try {
 
             do {
-                Wallet wallet = wc.getWp(idWallet);
-                System.out.println("=============== Profiles ===================");
-                System.out.println("Wallei Id      : " + wallet.getWallet_id());
-                System.out.println("Description    : " + wallet.getDescription());
-                System.out.println("Type           : " + wallet.getType());
-                System.out.println("Active Balance : " + Values.rupiah(ac.getLastBalance(listAccount.get(0).getAccountNumber())));
-                System.out.println("============================================");
-                System.out.println();
+                wc.getWp(idWallet, sessAccountNumber);
 
                 System.out.println("===== E-Wallet Banking =====");
                 System.out.println("1. Transfer");
@@ -528,7 +553,8 @@ public class App {
             } while (!kembali2);
 
         } catch (Exception e) {
-            System.out.println("Input not valid..");
+            Values.inputNotValid();
+            e.printStackTrace();
         }
     }
 
@@ -537,14 +563,8 @@ public class App {
         try {
 
             do {
-                Wallet wallet = wc.getWp(idWallet);
-                System.out.println("=============== Profiles ===================");
-                System.out.println("Wallei Id      : " + wallet.getWallet_id());
-                System.out.println("Description    : " + wallet.getDescription());
-                System.out.println("Type           : " + wallet.getType());
-                System.out.println("Active Balance : " + Values.rupiah(wallet.getActiveBalance()));
-                System.out.println("============================================");
-                System.out.println();
+                wc.getWp(idWallet, sessAccountNumber);
+
                 System.out.println("===== E-Wallet Payment =====");
                 System.out.println("1. Top Up");
                 System.out.println("2. Transfer");
@@ -574,8 +594,8 @@ public class App {
             } while (!kembali2);
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
-            System.out.println("Input not valid..");
         }
     }
 
@@ -594,7 +614,7 @@ public class App {
                     System.out.println("Please input number");
                 } else {
                     Long ntop = Long.parseLong(valNtop);
-                    Integer lastBalance = ac.getLastBalance(listAccount.get(0).getAccountNumber());
+                    Integer lastBalance = ac.getLastBalance(sessAccountNumber);
                     if (lastBalance == 0 || lastBalance < 5000 || lastBalance < ntop) {
                         System.out.println("Your balance is not enough");
                     } else {
@@ -604,7 +624,7 @@ public class App {
 
                             TrxEntity trxEntity = new TrxEntity();
                             trxEntity.setAcnDebet(acnt);
-                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                            trxEntity.setAcnCredit(sessAccountNumber);
                             trxEntity.setAmount(ntop);
                             trxEntity.setTrxType(transfer);
 
@@ -614,6 +634,7 @@ public class App {
                 }
             }
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }
@@ -627,7 +648,7 @@ public class App {
                 System.out.println("Please input number");
             } else {
                 Long ntop = Long.parseLong(valNtop);
-                Integer lastBalance = ac.getLastBalance(listAccount.get(0).getAccountNumber());
+                Integer lastBalance = ac.getLastBalance(sessAccountNumber);
                 if (lastBalance == 0 || lastBalance < 60000 || lastBalance < ntop) {
                     System.out.println("Your balance is not enough");
                 } else {
@@ -635,7 +656,7 @@ public class App {
                         System.out.println("Cash Withdrawal Minimum 50000");
                     } else {
                         TrxEntity trxEntity = new TrxEntity();
-                        trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                        trxEntity.setAcnCredit(sessAccountNumber);
                         trxEntity.setAmount(ntop);
                         trxEntity.setTrxType(tarikTunai);
                         wac.tariktunai(trxEntity);
@@ -644,6 +665,7 @@ public class App {
             }
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }
@@ -658,8 +680,10 @@ public class App {
 
                 System.out.println("1. By Rekening");
                 int no = 2;
-                Long accn = listAccount.get(0).getAccountNumber();
-                for (WalletAccount w : wc.getAllWallet(accn, idWallet)) {
+                for (WalletAccount w : wc.getAllWallet(sessAccountNumber, idWallet)) {
+                    if (w.getWallet_id().getType().equals("e-banking")) {
+                        continue;
+                    }
                     System.out.println((no++) + ". By " + w.getWallet_id().getDescription());
                 }
                 System.out.println("0. Back");
@@ -671,12 +695,14 @@ public class App {
                 } else {
                     int menu = Integer.parseInt(valMenu);
                     int x = 2;
-                    for (WalletAccount w : wc.getAllWallet(accn, idWallet))
-                        if (menu == (x++)) {
-                            topUpByWallet(w.getWallet_id().getWallet_id());
+                    for (WalletAccount wd : wc.getAllWallet(sessAccountNumber, idWallet))
+                        if (wd.getWallet_id().getType().equals("e-banking")) {
+                            continue;
+                        } else if (menu == (x++)) {
+                            topUpByWallet(wd.getWallet_id().getWallet_id());
                         }
                     if (menu == 1) {
-                        topUpByRek(listAccount.get(0).getAccountNumber());
+                        topUpByRek(sessAccountNumber);
                     }
                     if (menu == 0) {
                         kembali3 = true;
@@ -686,6 +712,7 @@ public class App {
             } while (!kembali3);
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
 
@@ -694,7 +721,7 @@ public class App {
     static void topUpByWallet(Integer byWallet) {
         try {
             if (wc.getWalletDescType(byWallet).equals("e-banking")) {
-                topUpByRek(listAccount.get(0).getAccountNumber());
+                topUpByRek(sessAccountNumber);
             } else {
                 System.out.println("Top up you wallet..");
                 System.out.print("Please insert top up nominal :");
@@ -712,7 +739,7 @@ public class App {
                         } else {
                             TrxEntity trxEntity = new TrxEntity();
                             trxEntity.setAmount(ntop);
-                            trxEntity.setAcnDebet(listAccount.get(0).getAccountNumber());
+                            trxEntity.setAcnDebet(sessAccountNumber);
                             trxEntity.setTrxType(topUp);
                             wac.topup(trxEntity, idWallet, byWallet);
                         }
@@ -721,6 +748,7 @@ public class App {
             }
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }
@@ -751,6 +779,7 @@ public class App {
             }
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }
@@ -782,8 +811,8 @@ public class App {
                             System.out.println("Minimum transfer is 1000");
                         } else {
                             trxEntity.setAmount(ntop);
-                            trxEntity.setAcnDebet(listAccount.get(0).getAccountNumber());
-                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                            trxEntity.setAcnDebet(sessAccountNumber);
+                            trxEntity.setAcnCredit(sessAccountNumber);
                             trxEntity.setTrxType(transfer);
                             wac.transferByWallet(trxEntity, idWallet, toWallet);
                         }
@@ -808,7 +837,7 @@ public class App {
                         } else {
                             trxEntity.setAcnDebet(acnt);
                             trxEntity.setAmount(ntop);
-                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                            trxEntity.setAcnCredit(sessAccountNumber);
                             trxEntity.setTrxType(transfer);
                             wac.transferByWallet(trxEntity, idWallet);
                         }
@@ -817,6 +846,7 @@ public class App {
             }
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }
@@ -838,7 +868,7 @@ public class App {
                         System.out.println("Cash Withdrawal Minimum 50000");
                     } else {
                         TrxEntity trxEntity = new TrxEntity();
-                        trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                        trxEntity.setAcnCredit(sessAccountNumber);
                         trxEntity.setAmount(ntop);
                         trxEntity.setTrxType(tarikTunai);
                         wac.tariktunai(trxEntity, idWallet);
@@ -847,6 +877,7 @@ public class App {
             }
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }
@@ -875,7 +906,7 @@ public class App {
                             System.out.println("Please input nominal");
                         } else {
                             trxEntity.setAmount(ntop);
-                            trxEntity.setAcnCredit(listAccount.get(0).getAccountNumber());
+                            trxEntity.setAcnCredit(sessAccountNumber);
                             trxEntity.setTrxType(pay);
                             wac.transferByWallet(trxEntity, idWallet, Integer.parseInt(kodeToko));
                         }
@@ -884,6 +915,7 @@ public class App {
             }
 
         } catch (Exception e) {
+            Values.inputNotValid();
             e.printStackTrace();
         }
     }

@@ -36,8 +36,8 @@ public class AccountImpl implements IAccount {
 
     }
 
-    public Account getAccount(String cif) {
-        return dataAccount.getCustomer(cif);
+    public Account getAccount(String cif, Long acnum) {
+        return dataAccount.getCustomer(cif, acnum);
     }
 
     public boolean isUsed(String username) {

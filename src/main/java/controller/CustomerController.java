@@ -29,11 +29,7 @@ public class CustomerController extends BorderPadding {
 
     // add new customer
     public void addCustomer(Customer customer) {
-        if (!customerImpl.addCustomer(customer)) {
-            System.out.println("Failed to add Customer");
-        } else {
-            System.out.println("Add customer success");
-        }
+        Values.isSucces(customerImpl.addCustomer(customer), "Add Custommer");
     }
 
     public Customer loginCustomer(String username, String password) {
@@ -89,6 +85,23 @@ public class CustomerController extends BorderPadding {
             }
         }
         border(51);
+
+    }
+
+    // check username is used by another account
+    public boolean isUsedCustomer(String username){
+
+        boolean isused = false;
+        if (customerImpl.isUsed(username)){
+            isused = true;
+        }
+        return isused;
+
+    }
+
+    public void updatePassword(String password, String cif) {
+
+        Values.isSucces(customerImpl.updatePassword(password, cif), "Update Password");
 
     }
 

@@ -68,4 +68,22 @@ public class CustomerImpl implements ICustomer {
 
     }
 
+    @Override
+    public boolean isUsed(String username) {
+        boolean isUsed = false;
+        if (dataCustomer.getByUsername(username)) {
+            isUsed = true;
+        }
+        return isUsed;
+    }
+
+    @Override
+    public boolean updatePassword(String password, String cif) {
+        boolean isUpdated = false;
+        if (dataCustomer.updatePassword(password, cif)) {
+            isUpdated = true;
+        }
+        return isUpdated;
+    }
+
 }

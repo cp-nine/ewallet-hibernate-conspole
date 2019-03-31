@@ -56,4 +56,15 @@ public class Values {
         return t1+"-"+t2+"-"+t3+"-"+t4;
     }
 
+    public  static void isSucces(boolean transaction, String message){
+        if (!transaction){
+            System.out.println(message+ " failled.");
+        } else {
+            System.out.println(message+ " success.");
+        }
+    }
+
+    public static void inputNotValid(){
+        System.out.println("Input not valid...");
+    }
 }

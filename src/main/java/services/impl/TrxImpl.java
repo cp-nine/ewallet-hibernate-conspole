@@ -60,30 +60,58 @@ public class TrxImpl implements ITrx {
     }
 
     @Override
-    public void topUp(TrxEntity trxEntity, Integer forWallet, Integer byWallet) {
-        dataWallet.updateBalancePlus(trxEntity.getAmount(),forWallet);
-        dataWallet.updateBalanceMinus(trxEntity.getAmount(), byWallet);
-        dataTrx.transaction(trxEntity);
+    public boolean topUp(TrxEntity trxEntity, Integer forWallet, Integer byWallet) {
+        boolean trans = false;
+        try {
+            dataWallet.updateBalancePlus(trxEntity.getAmount(),forWallet);
+            dataWallet.updateBalanceMinus(trxEntity.getAmount(), byWallet);
+            dataTrx.transaction(trxEntity);
+            trans = true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return trans;
     }
 
     @Override
-    public void topUp(TrxEntity trxEntity, Integer forWallet) {
-        dataWallet.updateBalancePlus(trxEntity.getAmount(), forWallet);
-        dataAccount.updateSaldoMinus(trxEntity.getAcnDebet(), trxEntity.getAmount());
-        dataTrx.transaction(trxEntity);
+    public boolean topUp(TrxEntity trxEntity, Integer forWallet) {
+        boolean trans = false;
+        try {
+            dataWallet.updateBalancePlus(trxEntity.getAmount(), forWallet);
+            dataAccount.updateSaldoMinus(trxEntity.getAcnDebet(), trxEntity.getAmount());
+            dataTrx.transaction(trxEntity);
+            trans = true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return trans;
     }
 
     @Override
-    public void transferByWallet(TrxEntity trxEntity, Integer wid) {
-        dataWallet.updateBalanceMinus(trxEntity.getAmount(), wid);
-        dataAccount.updateSaldoPlus(trxEntity.getAcnDebet(), trxEntity.getAmount());
-        dataTrx.transaction(trxEntity);
+    public boolean transferByWallet(TrxEntity trxEntity, Integer wid) {
+        boolean trans = false;
+        try {
+            dataWallet.updateBalanceMinus(trxEntity.getAmount(), wid);
+            dataAccount.updateSaldoPlus(trxEntity.getAcnDebet(), trxEntity.getAmount());
+            dataTrx.transaction(trxEntity);
+            trans = true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return trans;
     }
 
     @Override
-    public void transferByWallet(TrxEntity trxEntity, Integer wid, Integer toWid) {
-        dataWallet.updateBalanceMinus(trxEntity.getAmount(), wid);
-        dataWallet.updateBalancePlus(trxEntity.getAmount(), toWid);
-        dataTrx.transaction(trxEntity);
+    public boolean transferByWallet(TrxEntity trxEntity, Integer wid, Integer toWid) {
+        boolean trans = false;
+        try {
+            dataWallet.updateBalanceMinus(trxEntity.getAmount(), wid);
+            dataWallet.updateBalancePlus(trxEntity.getAmount(), toWid);
+            dataTrx.transaction(trxEntity);
+            trans = true;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return trans;
     }
 }

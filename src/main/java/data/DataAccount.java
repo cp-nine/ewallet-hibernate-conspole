@@ -102,16 +102,18 @@ public class DataAccount {
         return lastValue;
     }
 
-    public Account getCustomer(String cif) {
+    public Account getCustomer(String cif, Long acnum) {
         Session sesn = factory.openSession();
         Account users = new Account();
 
         try {
-            Query query = (Query) sesn.createQuery("From Account Where cif.cif= :cif");
+            Query query = (Query) sesn.createQuery("From Account Where cif.cif= :cif AND account_number= :acnum");
+            query.setMaxResults(1);
             query.setParameter("cif", cif);
+            query.setParameter("acnum", acnum);
             users = (Account) query.uniqueResult();
         } catch (HibernateException e) {
-            // sesn.close();
+             sesn.close();
             e.printStackTrace();
         }
         return users;
@@ -119,7 +121,6 @@ public class DataAccount {
 
 
     public boolean updatePin(String pin, Long acn) {
-//		System.out.println(pin +" "+acn);
         Session sesn = factory.openSession();
         boolean isUpdated = false;
         try {

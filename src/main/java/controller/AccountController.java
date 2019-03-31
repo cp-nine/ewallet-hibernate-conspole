@@ -18,16 +18,12 @@ public class AccountController extends BorderPadding {
     // create new account
     public void createAccount(Account account) {
 
-        if (accn.createNewAccount(account)) {
-            System.out.println("New account has been created.");
-        } else {
-            System.out.println("Failed to create new account");
-        }
+        Values.isSucces(accn.createNewAccount(account), "Create Account");
 
     }
 
-    public void getProfileAccount(String cif) {
-        Account acn = accn.getAccount(cif);
+    public void getProfileAccount(String cif, Long acnum) {
+        Account acn = accn.getAccount(cif, acnum);
 
         System.out.println("=============== Profiles ===================");
         System.out.println("Name           : " + acn.getAccountName());
@@ -37,21 +33,20 @@ public class AccountController extends BorderPadding {
     }
 
     public void updatePin(String pin, Long acn) {
-        if (accn.updatePin(pin, acn)){
-            System.out.println("Update pin success");
-        } else {
-            System.out.println("Update pin failed");
-        }
+
+        Values.isSucces(accn.updatePin(pin, acn), "Update Pin");
 
     }
 
     // check username is used by another account
     public boolean isUsed(String username){
+
         boolean isused = false;
         if (accn.isUsed(username)){
             isused = true;
         }
         return isused;
+
     }
 
     public Account login(String username, String password) {

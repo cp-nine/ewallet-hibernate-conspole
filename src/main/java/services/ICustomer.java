@@ -17,4 +17,6 @@ public interface ICustomer {
     Customer getCustomer(String cif);
 
     List<Account> getAccountList(String cif);
+    boolean isUsed(String username);
+    boolean updatePassword(String password, String cif);
 }
