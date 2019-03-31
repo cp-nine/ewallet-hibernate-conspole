@@ -86,7 +86,7 @@ public class App {
                 } else {
                     System.out.print("Last Name        : ");
                     String lname = input.readLine().trim();
-                    if (!Values.isString(lname) || lname.equals("")) {
+                    if (!Values.isString(lname)) {
                         System.out.println("Last name must be words and cannot empty!!");
                     } else {
                         System.out.print("Date of Brith    : ");

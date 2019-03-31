@@ -57,13 +57,13 @@ public class CustomerController extends BorderPadding {
 
         List<Account> listAcn = customerImpl.getAccountList(cif);
         int no = 1; // create list number
-        System.out.println("=========== Transaction Report =================");
+        System.out.println("=========== Your Account =================");
         border(51); // create horizontal border table
         System.out.println("| " + padRight("No", 5)
-                + "| " + padRight("Transaction", 20)
-                + "| " + padRight("Amount", 25)
-                + "| " + padRight("Account", 20)
-                + "| " + padRight("Time", 21)
+                + "| " + padRight("Account Name", 20)
+                + "| " + padRight("Account Number", 25)
+                + "| " + padRight("Balance", 20)
+                + "| " + padRight("Open Date", 21)
                 + " |"
         );
         border(51);
@@ -75,10 +75,10 @@ public class CustomerController extends BorderPadding {
             for (Account tr : listAcn) {
                 int num = no++;
                 System.out.println("| " + padRight((String.valueOf(num)), 5)
-                        + "| " + padRight("Top Up", 20)
-                        + "| " + padRight(tr.getAccountName(), 25)
-                        + "| " + padRight(" - ", 20)
-                        + "| " + padRight(tr.getAccountNumber().toString(), 21)
+                        + "| " + padRight(tr.getAccountName(), 20)
+                        + "| " + padRight(Values.balance(tr.getAccountNumber().toString()), 25)
+                        + "| " + padRight(Values.rupiah(tr.getBalance()), 20)
+                        + "| " + padRight(tr.getOpen_date().toString(), 21)
                         + " |"
                 );
 
