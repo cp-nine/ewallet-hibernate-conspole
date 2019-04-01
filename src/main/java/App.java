@@ -30,6 +30,7 @@ public class App {
     public static void main(String[] args) {
 
         Values.banner();
+
         boolean isExit = false;
         try {
 
@@ -348,17 +349,21 @@ public class App {
                             } else {
                                 int number = Integer.parseInt(valNumber);
                                 List<Wallet> walletsList = wc.getAllWalletId(sessAccountNumber);
-                                if (number > walletsList.size()){
-                                    System.out.println("Wallet not found");
-                                } else {
+                                if (walletsList != null){
                                     int x = 1;
                                     for (Wallet w : walletsList) {
                                         if (number == (x++)) {
                                             idWallet = w.getWallet_id();
                                         }
                                     }
-//                                 get wallet by wallet id
-                                    wallet(idWallet);
+
+                                    if (idWallet == 0){
+                                        System.out.println("Wallet not found");
+                                    } else {
+                                        wallet(idWallet);
+                                    }
+                                } else {
+                                    System.out.println("Wallet not found");
                                 }
                             }
 
@@ -561,6 +566,7 @@ public class App {
                     } else if (menu == 2) {
                         tarikTunai();
                     } else if (menu == 3) {
+                        idWallet=0;
                         kembali2 = true;
                     }
                 }
@@ -602,6 +608,7 @@ public class App {
                     } else if (menu == 4) {
                         payProduct();
                     } else if (menu == 5) {
+                        idWallet=0;
                         kembali2 = true;
                     }
                 }
@@ -716,17 +723,22 @@ public class App {
                 } else {
                     int menu = Integer.parseInt(valMenu);
                     int x = 2;
-                    for (WalletAccount wd : wc.getAllWallet(sessAccountNumber, idWallet))
-                        if (wd.getWallet_id().getType().equals("e-banking")) {
-                            continue;
-                        } else if (menu == (x++)) {
-                            topUpByWallet(wd.getWallet_id().getWallet_id());
+                    List<WalletAccount> walletAccounts = wc.getAllWallet(sessAccountNumber, idWallet);
+                    if (menu > walletAccounts.size()+1){
+                        System.out.println("Wallet not found");
+                    } else {
+                        for (WalletAccount wd : walletAccounts)
+                            if (wd.getWallet_id().getType().equals("e-banking")) {
+                                continue;
+                            } else if (menu == (x++)) {
+                                topUpByWallet(wd.getWallet_id().getWallet_id());
+                            }
+                        if (menu == 1) {
+                            topUpByRek(sessAccountNumber);
                         }
-                    if (menu == 1) {
-                        topUpByRek(sessAccountNumber);
-                    }
-                    if (menu == 0) {
-                        kembali3 = true;
+                        if (menu == 0) {
+                            kembali3 = true;
+                        }
                     }
                 }
 
