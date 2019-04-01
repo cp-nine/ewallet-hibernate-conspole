@@ -1,5 +1,6 @@
 package controller;
 
+import config.BorderPadding;
 import config.Values;
 import entities.Wallet;
 import entities.WalletAccount;
@@ -12,7 +13,7 @@ import services.impl.WalletImpl;
 
 import java.util.List;
 
-public class WalletController {
+public class WalletController extends BorderPadding {
 
     private static IAccount iAccount = new AccountImpl();
     private static IWalletAccount iwc = new WalletAccountImpl();
@@ -25,11 +26,30 @@ public class WalletController {
             if (wallets.size() < 1) {
                 System.out.println("Cannot show wallets");
             } else {
-                System.out.println("======== Your Wallet =========");
-                int no = 1;
-                for (WalletAccount w : wallets) {
-                    System.out.println((no++) + ". " + w.getWallet_id().getDescription() + " " + w.getAccount_number());
+                int no = 1; // create list number
+                System.out.println("=========== Your Wallet =================");
+                border(41); // create horizontal border table
+                System.out.println("| " + padRight("No", 5)
+                        + "| " + padRight("Wallet Id", 10)
+                        + "| " + padRight("Wallet Name", 15)
+                        + "| " + padRight("Account Number", 20)
+                        + "| " + padRight("Open Date", 21)
+                        + " |"
+                );
+                border(41);
+
+                    for (WalletAccount tr : wallets) {
+                        int num = no++;
+                        System.out.println("| " + padRight((String.valueOf(num)), 5)
+                                + "| " + padRight(tr.getWallet_id().getWallet_id().toString(), 10)
+                                + "| " + padRight(tr.getWallet_id().getDescription(), 15)
+                                + "| " + padRight(Values.balance(tr.getAccount_number().toString()), 20)
+                                + "| " + padRight(tr.getWallet_id().getCreatedAt().toString(), 20)
+                                + " |"
+                        );
+
                 }
+                border(41);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,6 +119,22 @@ public class WalletController {
             e.printStackTrace();
         }
         return value;
+    }
+
+    public boolean walletValidate(Integer wid, String toWalletId){
+        boolean isYour = false;
+        try {
+            Wallet wallet = iWallet.getWp(wid);
+            if(wallet.getWallet_id() != Integer.parseInt(toWalletId)){
+                isYour = true;
+            } else {
+                isYour = false;
+            }
+
+        } catch (Exception e){
+            return false;
+        }
+        return isYour;
     }
 
 }

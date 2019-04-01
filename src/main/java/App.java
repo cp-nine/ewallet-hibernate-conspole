@@ -5,6 +5,7 @@ import entities.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.UUID;
 
 public class App {
@@ -28,6 +29,7 @@ public class App {
 
     public static void main(String[] args) {
 
+        Values.banner();
         boolean isExit = false;
         try {
 
@@ -41,7 +43,7 @@ public class App {
                     System.out.println("3. Account Login");
                     System.out.println("4. Exit");
                     System.out.println();
-                    System.out.println("=========================");
+                    System.out.println("=======================");
 
                     System.out.print("Select Menu > ");
                     int menu = Integer.parseInt(input.readLine().trim());
@@ -54,7 +56,7 @@ public class App {
                         login();
                     } else if (menu == 4) {
                         System.exit(1);
-                    }  else {
+                    } else {
                         Values.inputNotValid();
                     }
 
@@ -67,7 +69,7 @@ public class App {
 
         } catch (Exception e) {
             Values.inputNotValid();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
     }
@@ -76,7 +78,8 @@ public class App {
     // add new customer
     private static void addCustomer() {
         try {
-            System.out.println("-------------- Register Customer ------------");
+            System.out.println();
+            System.out.println("============= Register Customer =============");
             boolean kembali = false;
             do {
                 System.out.print("First Name       : ");
@@ -104,7 +107,7 @@ public class App {
                                 if (!Values.isNumeric(yob) || !Values.validLength(yob, 4, 4)) {
                                     System.out.println("Date of birth must be four number");
                                 } else {
-                                    System.out.print("Username      : ");
+                                    System.out.print("Username         : ");
                                     String username = input.readLine().trim();
                                     if (username.length() < 1) {
                                         System.out.println("Username cannot empty");
@@ -112,7 +115,7 @@ public class App {
                                         if (cc.isUsedCustomer(username)) {
                                             System.out.println("Username is used");
                                         } else {
-                                            System.out.print("Password          : ");
+                                            System.out.print("Password         : ");
                                             String password = input.readLine().trim();
                                             if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
                                                 System.out.println("Pin must be six number");
@@ -146,14 +149,15 @@ public class App {
 
         } catch (Exception e) {
             Values.inputNotValid();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
     // create new account
     public static void createAccount() {
         try {
-            System.out.println("-------------- Register Account ------------");
+            System.out.println();
+            System.out.println("======== Register Account ========");
             boolean kembali2 = false;
             do {
                 System.out.print("Username      : ");
@@ -164,17 +168,17 @@ public class App {
                     if (ac.isUsed(username)) {
                         System.out.println("Username is used");
                     } else {
-                        System.out.print("PIN          : ");
+                        System.out.print("PIN           : ");
                         String password = input.readLine().trim();
                         if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
                             System.out.println("Pin must be six number");
                         } else {
-                            System.out.print("Confirm PIN      : ");
+                            System.out.print("Confirm PIN   : ");
                             String password2 = input.readLine().trim();
                             if (!password2.matches(password)) {
                                 System.out.println("PIN doesn't match");
                             } else {
-                                System.out.print("Balance        : ");
+                                System.out.print("Balance       : ");
                                 String tabungan = input.readLine().trim();
                                 if (!Values.isNumeric(tabungan) || Long.valueOf(tabungan) < 50000) {
                                     System.out.println("Please enter valid value!, Minimum balance Rp.50.000");
@@ -204,14 +208,15 @@ public class App {
 
         } catch (Exception e) {
             Values.inputNotValid();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
     // login
     static void loginCustomer() {
         try {
-            System.out.println("===== Login ======");
+            System.out.println();
+            System.out.println("======== Login =========");
             System.out.print("Username : ");
             String username = input.readLine();
             System.out.print("Password : ");
@@ -227,7 +232,7 @@ public class App {
 
         } catch (Exception e) {
             Values.inputNotValid();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
     }
@@ -235,7 +240,8 @@ public class App {
     // login
     static void login() {
         try {
-            System.out.println("===== Login ======");
+            System.out.println();
+            System.out.println("======== Login =========");
             System.out.print("Username : ");
             String username = input.readLine();
             System.out.print("PIN      : ");
@@ -252,7 +258,7 @@ public class App {
 
         } catch (Exception e) {
             Values.inputNotValid();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
     }
@@ -263,6 +269,7 @@ public class App {
         boolean kembali = false;
         try {
             do {
+                System.out.println();
                 System.out.println("========= Main Menu =========");
                 System.out.println("1. Profile details");
                 System.out.println("2. List Account");
@@ -286,7 +293,7 @@ public class App {
                     } else if (menu == 4) {
                         updatePassword();
                     } else if (menu == 5) {
-                        sessCustomerCif="";
+                        sessCustomerCif = "";
                         kembali = true;
                     }
                 }
@@ -294,7 +301,7 @@ public class App {
 
         } catch (Exception e) {
             Values.inputNotValid();
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
     }
@@ -305,6 +312,7 @@ public class App {
         boolean kembali = false;
         try {
             do {
+                System.out.println();
                 System.out.println("========= Main Menu =========");
                 System.out.println("1. Profile details");
                 System.out.println("2. Transaction Report");
@@ -339,15 +347,19 @@ public class App {
                                 System.out.println("Please input number");
                             } else {
                                 int number = Integer.parseInt(valNumber);
-
-                                int x = 1;
-                                for (Wallet w : wc.getAllWalletId(sessAccountNumber)) {
-                                    if (number == (x++)) {
-                                        idWallet = w.getWallet_id();
+                                List<Wallet> walletsList = wc.getAllWalletId(sessAccountNumber);
+                                if (number > walletsList.size()){
+                                    System.out.println("Wallet not found");
+                                } else {
+                                    int x = 1;
+                                    for (Wallet w : walletsList) {
+                                        if (number == (x++)) {
+                                            idWallet = w.getWallet_id();
+                                        }
                                     }
-                                }
 //                                 get wallet by wallet id
-                                wallet(idWallet);
+                                    wallet(idWallet);
+                                }
                             }
 
                         } else {
@@ -387,7 +399,7 @@ public class App {
                     } else if (menu == 7) {
                         sessAccountCif = "";
                         sessAccountNumber = Long.valueOf(0);
-                        kembali=true;
+                        kembali = true;
                     }
                 }
             } while (!kembali);
@@ -406,6 +418,7 @@ public class App {
         try {
 
             do {
+                System.out.println();
                 System.out.println("Select account type : ");
                 System.out.println("1. E-Banking");
                 System.out.println("2. E-Payment");
@@ -430,11 +443,11 @@ public class App {
 
                         final String uuid = UUID.randomUUID().toString();
                         String codever = Code.makeCode("", uuid, 5);
-                        System.out.println("Verfication code - " + codever);
+                        System.out.println("Captcha    - " + codever);
                         System.out.println("Create wallet account");
-                        System.out.print("Description :");
+                        System.out.print("Description   : ");
                         String description = input.readLine();
-                        System.out.print("Insert verification code: ");
+                        System.out.print("Insert captcha: ");
                         String verify = input.readLine();
                         if (!verify.equals(codever)) {
                             System.out.println("Verification code doesn't match!!!");
@@ -448,22 +461,23 @@ public class App {
             } while (!kembali3);
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
 
     }
 
     private static void updatePassword() {
         try {
-            System.out.println("-------------- Update Your Password ------------");
+            System.out.println();
+            System.out.println("================ Update Your Password ================");
             boolean kembali2 = false;
             do {
-                System.out.print("New Password          : ");
+                System.out.print("New Password     : ");
                 String password = input.readLine().trim();
                 if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
                     System.out.println("Password must be six number");
                 } else {
-                    System.out.print("Confirm Password      : ");
+                    System.out.print("Confirm Password : ");
                     String password2 = input.readLine().trim();
                     if (!password2.matches(password)) {
                         System.out.println("Password doesn't match");
@@ -483,15 +497,16 @@ public class App {
 
     private static void updatePin() {
         try {
-            System.out.println("-------------- Update Your PIN ------------");
+            System.out.println();
+            System.out.println("============= Update Your PIN ==============");
             boolean kembali2 = false;
             do {
-                System.out.print("New PIN          : ");
+                System.out.print("New PIN     : ");
                 String password = input.readLine().trim();
                 if (!Values.isNumeric(password) || !Values.validLength(password, 6, 6)) {
                     System.out.println("Pin must be six number");
                 } else {
-                    System.out.print("Confirm PIN      : ");
+                    System.out.print("Confirm PIN : ");
                     String password2 = input.readLine().trim();
                     if (!password2.matches(password)) {
                         System.out.println("PIN doesn't match");
@@ -526,7 +541,7 @@ public class App {
     static void walletEbanking() {
         boolean kembali2 = false;
         try {
-
+            System.out.println();
             do {
                 wc.getWp(idWallet, sessAccountNumber);
 
@@ -534,7 +549,7 @@ public class App {
                 System.out.println("1. Transfer");
                 System.out.println("2. Cash Withdrawal");
                 System.out.println("3. Back");
-                System.out.println("====================");
+                System.out.println("============================");
                 System.out.print("Select menu > ");
                 String valMenu = input.readLine().trim();
                 if (!Values.isNumeric(valMenu)) {
@@ -561,7 +576,7 @@ public class App {
     static void walletEpayment() {
         boolean kembali2 = false;
         try {
-
+            System.out.println();
             do {
                 wc.getWp(idWallet, sessAccountNumber);
 
@@ -571,7 +586,7 @@ public class App {
                 System.out.println("3. Cash Withdrawal");
                 System.out.println("4. Pay Product");
                 System.out.println("5. Back");
-                System.out.println("====================");
+                System.out.println("============================");
                 System.out.print("Select menu > ");
                 String valMenu = input.readLine().trim();
                 if (!Values.isNumeric(valMenu)) {
@@ -601,34 +616,39 @@ public class App {
 
     static void transferByAccount() {
         try {
+            System.out.println();
             System.out.println("E-Wallet Transfer By Account");
-            System.out.print("Enter the destination account number : ");
+            System.out.print("Destination account number : ");
             String valAcn = input.readLine().trim();
-            if (!Values.isNumeric(valAcn)) {
-                System.out.println("Please input number");
+            if (sessAccountNumber.toString().equals(valAcn)) {
+                System.out.println("You cannot transfer to your self");
             } else {
-                Long acnt = Long.parseLong(valAcn);
-                System.out.print("Input nominal : ");
-                String valNtop = input.readLine().trim();
-                if (!Values.isNumeric(valNtop)) {
+                if (!Values.isNumeric(valAcn)) {
                     System.out.println("Please input number");
                 } else {
-                    Long ntop = Long.parseLong(valNtop);
-                    Integer lastBalance = ac.getLastBalance(sessAccountNumber);
-                    if (lastBalance == 0 || lastBalance < 5000 || lastBalance < ntop) {
-                        System.out.println("Your balance is not enough");
+                    Long acnt = Long.parseLong(valAcn);
+                    System.out.print("Nominal Transfer       : ");
+                    String valNtop = input.readLine().trim();
+                    if (!Values.isNumeric(valNtop)) {
+                        System.out.println("Please input number");
                     } else {
-                        if (ntop < 1000) {
-                            System.out.println("Minimum transfer is 1000");
+                        Long ntop = Long.parseLong(valNtop);
+                        Integer lastBalance = ac.getLastBalance(sessAccountNumber);
+                        if (lastBalance == 0 || lastBalance < 5000 || lastBalance < ntop) {
+                            System.out.println("Your balance is not enough");
                         } else {
+                            if (ntop < 1000) {
+                                System.out.println("Minimum transfer is 1000");
+                            } else {
 
-                            TrxEntity trxEntity = new TrxEntity();
-                            trxEntity.setAcnDebet(acnt);
-                            trxEntity.setAcnCredit(sessAccountNumber);
-                            trxEntity.setAmount(ntop);
-                            trxEntity.setTrxType(transfer);
+                                TrxEntity trxEntity = new TrxEntity();
+                                trxEntity.setAcnDebet(acnt);
+                                trxEntity.setAcnCredit(sessAccountNumber);
+                                trxEntity.setAmount(ntop);
+                                trxEntity.setTrxType(transfer);
 
-                            wac.transfer(trxEntity);
+                                wac.transfer(trxEntity);
+                            }
                         }
                     }
                 }
@@ -641,8 +661,9 @@ public class App {
 
     static void tarikTunai() {
         try {
+            System.out.println();
             System.out.println("E-Wallet Cash Withdrawal");
-            System.out.print("Please insert nominal: ");
+            System.out.print("Please insert nominal : ");
             String valNtop = input.readLine().trim();
             if (!Values.isNumeric(valNtop)) {
                 System.out.println("Please input number");
@@ -687,7 +708,7 @@ public class App {
                     System.out.println((no++) + ". By " + w.getWallet_id().getDescription());
                 }
                 System.out.println("0. Back");
-                System.out.println("====================");
+                System.out.println("===============================");
                 System.out.print("Select menu >");
                 String valMenu = input.readLine().trim();
                 if (!Values.isNumeric(valMenu)) {
@@ -720,11 +741,12 @@ public class App {
 
     static void topUpByWallet(Integer byWallet) {
         try {
+            System.out.println();
             if (wc.getWalletDescType(byWallet).equals("e-banking")) {
                 topUpByRek(sessAccountNumber);
             } else {
                 System.out.println("Top up you wallet..");
-                System.out.print("Please insert top up nominal :");
+                System.out.print("Insert top up nominal :");
                 String valNtop = input.readLine().trim();
                 if (!Values.isNumeric(valNtop)) {
                     System.out.println("Please input number");
@@ -755,8 +777,9 @@ public class App {
 
     static void topUpByRek(Long accountNumber) {
         try {
+            System.out.println();
             System.out.println("Top up you wallet..");
-            System.out.print("Please insert top up nominal :");
+            System.out.print("Insert top up nominal :");
             String valNtop = input.readLine().trim();
             if (!Values.isNumeric(valNtop)) {
                 System.out.println("Please input number");
@@ -787,7 +810,7 @@ public class App {
     static void transferByWallet() {
         try {
             TrxEntity trxEntity = new TrxEntity();
-
+            System.out.println();
             System.out.println("E-Wallet Transfer By Wallet");
 
             System.out.println("1. Transfer To Other Wallet");
@@ -795,51 +818,64 @@ public class App {
             int pilihan = Integer.parseInt(input.readLine());
 
             if (pilihan == 1) {
-                System.out.print("Insert destination Wallet Id: ");
-                Integer toWallet = Integer.parseInt(input.readLine());
-                System.out.print("Insert transfer nominal  : ");
-                String valNtop = input.readLine().trim();
-                if (!Values.isNumeric(valNtop)) {
-                    System.out.println("Please input number");
+                System.out.print("Destination Wallet Id : ");
+                String valWaid = input.readLine().trim();
+                if (!wc.walletValidate(idWallet, valWaid)) {
+                    System.out.println("You cannot transfer to your self");
                 } else {
-                    Long ntop = Long.parseLong(valNtop);
-                    Integer wbal = wc.getLastBalance(idWallet);
-                    if (wbal == 0 || wbal < 2000 || wbal < ntop) {
-                        System.out.println("Your balance is not enough");
+                    if (!Values.isNumeric(valWaid)) {
+                        System.out.println("Please input number");
                     } else {
-                        if (ntop < 1000) {
-                            System.out.println("Minimum transfer is 1000");
+                        Integer toWallet = Integer.parseInt(valWaid);
+                        System.out.print("Transfer nominal      : ");
+                        String valNtop = input.readLine().trim();
+                        if (!Values.isNumeric(valNtop)) {
+                            System.out.println("Please input number");
                         } else {
-                            trxEntity.setAmount(ntop);
-                            trxEntity.setAcnDebet(sessAccountNumber);
-                            trxEntity.setAcnCredit(sessAccountNumber);
-                            trxEntity.setTrxType(transfer);
-                            wac.transferByWallet(trxEntity, idWallet, toWallet);
+                            Long ntop = Long.parseLong(valNtop);
+                            Integer wbal = wc.getLastBalance(idWallet);
+                            if (wbal == 0 || wbal < 2000 || wbal < ntop) {
+                                System.out.println("Your balance is not enough");
+                            } else {
+                                if (ntop < 1000) {
+                                    System.out.println("Minimum transfer is 1000");
+                                } else {
+                                    trxEntity.setAmount(ntop);
+                                    trxEntity.setAcnDebet(sessAccountNumber);
+                                    trxEntity.setAcnCredit(sessAccountNumber);
+                                    trxEntity.setTrxType(transfer);
+                                    wac.transferByWallet(trxEntity, idWallet, toWallet);
+                                }
+                            }
                         }
                     }
                 }
-
             } else if (pilihan == 2) {
-                System.out.print("Enter the destination account number : ");
-                Long acnt = Long.parseLong(input.readLine());
-                System.out.print("Insert transfer nominal  : ");
-                String valNtop = input.readLine().trim();
-                if (!Values.isNumeric(valNtop)) {
+                System.out.print("Destination account number : ");
+                String valAcn = input.readLine().trim();
+                if (!Values.isNumeric(valAcn)) {
                     System.out.println("Please input number");
                 } else {
-                    Long ntop = Long.parseLong(valNtop);
-                    Integer wbal = wc.getLastBalance(idWallet);
-                    if (wbal == 0 || wbal < 2000 || wbal < ntop) {
-                        System.out.println("Your balance is not enough");
+                    Long acnt = Long.parseLong(valAcn);
+                    System.out.print("Transfer nominal           : ");
+                    String valNtop = input.readLine().trim();
+                    if (!Values.isNumeric(valNtop)) {
+                        System.out.println("Please input number");
                     } else {
-                        if (ntop < 1000) {
-                            System.out.println("Minimum transfer is 1000");
+                        Long ntop = Long.parseLong(valNtop);
+                        Integer wbal = wc.getLastBalance(idWallet);
+                        if (wbal == 0 || wbal < 2000 || wbal < ntop) {
+                            System.out.println("Your balance is not enough");
                         } else {
-                            trxEntity.setAcnDebet(acnt);
-                            trxEntity.setAmount(ntop);
-                            trxEntity.setAcnCredit(sessAccountNumber);
-                            trxEntity.setTrxType(transfer);
-                            wac.transferByWallet(trxEntity, idWallet);
+                            if (ntop < 1000) {
+                                System.out.println("Minimum transfer is 1000");
+                            } else {
+                                trxEntity.setAcnDebet(acnt);
+                                trxEntity.setAmount(ntop);
+                                trxEntity.setAcnCredit(sessAccountNumber);
+                                trxEntity.setTrxType(transfer);
+                                wac.transferByWallet(trxEntity, idWallet);
+                            }
                         }
                     }
                 }
@@ -853,8 +889,9 @@ public class App {
 
     static void tarikTunaiWallet() {
         try {
+            System.out.println();
             System.out.println("E-Wallet Cash Withdrawal Wallet");
-            System.out.print("Please insert nominal:");
+            System.out.print("Please insert nominal : ");
             String valNtop = input.readLine().trim();
             if (!Values.isNumeric(valNtop)) {
                 System.out.println("Please input number");
@@ -886,8 +923,8 @@ public class App {
         try {
             TrxEntity trxEntity = new TrxEntity();
 
-            System.out.println("==================== Pay Product ====================");
-            System.out.print("Insert store code : ");
+            System.out.println("============== Pay Product ==============");
+            System.out.print("Insert store code      : ");
             String kodeToko = input.readLine().trim();
             if (!Values.isNumeric(kodeToko)) {
                 System.out.println("Input not valid");

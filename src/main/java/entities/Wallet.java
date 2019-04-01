@@ -15,8 +15,6 @@ public class Wallet {
     private Integer wallet_id;
     @Column(name = "description")
     private String description;
-    @Column(name = "kode_toko")
-    private String kode_toko;
     @Column(name = "type")
     private String type;
     @Column(name = "active_balance")
@@ -45,14 +43,6 @@ public class Wallet {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getKode_toko() {
-        return kode_toko;
-    }
-
-    public void setKode_toko(String kode_toko) {
-        this.kode_toko = kode_toko;
     }
 
     public String getType() {

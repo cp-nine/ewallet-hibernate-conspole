@@ -69,7 +69,7 @@ public class CustomerController extends BorderPadding {
         border(51);
 
         if (listAcn.size() < 1) {
-            System.out.println("| " + padRight(("You have not transaction yet"), 30) + " |"
+            System.out.println("| " + padRight(("You have not transaction yet"), 100) + " |"
             );
         } else {
             for (Account tr : listAcn) {
