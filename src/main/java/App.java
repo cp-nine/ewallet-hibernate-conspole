@@ -29,7 +29,7 @@ public class App {
 
     public static void main(String[] args) {
 
-        Values.banner();
+//        Values.banner();
 
         boolean isExit = false;
         try {
@@ -114,6 +114,7 @@ public class App {
                                         System.out.println("Username cannot empty");
                                     } else {
                                         if (cc.isUsedCustomer(username)) {
+
                                             System.out.println("Username is used");
                                         } else {
                                             System.out.print("Password         : ");
