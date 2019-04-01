@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Random;
 
 public class Values {
@@ -83,6 +84,15 @@ public class Values {
         }
         return newDate.toString();
     }
+
+
+//    public static boolean addCustomerValidate(Map<String, Object> row){
+//        boolean isValid = false;
+//
+//        row.size();
+//
+//        return isValid;
+//    }
 
     public static void banner(){
         int width = 80;

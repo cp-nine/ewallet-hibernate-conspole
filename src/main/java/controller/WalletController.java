@@ -80,7 +80,7 @@ public class WalletController extends BorderPadding {
     public String getWalletDescType(Integer wid) {
 
         String walletId = iWallet.getType(wid);
-        if (!walletId.equals("") || walletId.equals(null)) {
+        if (walletId.equals("") || walletId.equals(null)) {
             System.out.println("Wallet not found.");
         }
 
